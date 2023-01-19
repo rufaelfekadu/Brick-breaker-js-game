@@ -1,0 +1,2 @@
+class Paddle{}
+class Ball{}
