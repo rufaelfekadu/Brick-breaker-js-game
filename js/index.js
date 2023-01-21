@@ -1,29 +1,14 @@
-const canvas = document.getElementById('game-canvas');
-const ctx = canvas.getContext('2d');
-let leftArrow=false;
-let rightArrow=false;
 
-class Paddle{
-    constructor(width, height){
-        this.margin_bottom=50;
-        this.width = width;
-        this.height = height;
-        this.x = canvas.width/2 - this.width/2
-        this.y = canvas.height - this.height - this.margin_bottom;
-        this.dx = 20;
-    }
-    draw(){
-        ctx.fillStyle = "#2e3548";
-        ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
-    }
-}
+import Paddle from './paddle_class/paddle_class.js';
+import Ball from './ball_class/ball_class.js';
+import Brick from './brick_class/brick_class.js';
+
+export const canvas = document.getElementById('game-canvas');
+export const ctx = canvas.getContext('2d');
+export let leftArrow=false;
+export let rightArrow=false;
 
 const paddle = new Paddle(150,20);
-
-
-class Ball{}
-class Brick{}
-
 
 canvas.addEventListener("mousemove", function(event){
         if(event.clientX <= paddle.width/2){
@@ -34,7 +19,6 @@ canvas.addEventListener("mousemove", function(event){
             paddle.x = event.clientX -paddle.width/2
         } 
 });
-
 document.addEventListener("keydown", function(event){
     if(event.key === "ArrowLeft"){
         leftArrow = true;
@@ -49,6 +33,7 @@ document.addEventListener("keyup", function(event){
         rightArrow = false;
     }
 });
+
 function movePaddle(){
     if(rightArrow && paddle.x + paddle.width < canvas.width){
         paddle.x += paddle.dx;
@@ -66,7 +51,7 @@ function drawGame(){
 
 function tick(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    drawGame()
+    drawGame();
     update();
     requestAnimationFrame(tick);
 }
