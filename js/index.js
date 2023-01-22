@@ -9,7 +9,7 @@ export let rightArrow=false;
 
 const paddle = new Paddle(150,20);
 
-const brick2 = new Brick(40,20);
+const brick = new Brick(100,50);
 
 canvas.addEventListener("mousemove", function(event){
         if(event.clientX <= paddle.width/2){
@@ -48,6 +48,8 @@ function update(){
 }
 function drawGame(){
     paddle.draw();
+    brick.createbrick();
+    brick.drawbricks();
 }
 
 function tick(){
