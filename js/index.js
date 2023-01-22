@@ -1,10 +1,10 @@
-
 import Paddle from './paddle_class/paddle_class.js';
 import Ball from './ball_class/ball_class.js';
 import Brick from './brick_class/brick_class.js';
 
 export const canvas = document.getElementById('game-canvas');
 export const ctx = canvas.getContext('2d');
+
 export let leftArrow = false;
 export let rightArrow = false;
 export let ballMoveAnimation;
@@ -13,7 +13,7 @@ export let ballMoveAnimation_paddle;
 
 export const paddle = new Paddle(150, 20);
 export const ball = new Ball();
-
+const brick = new Brick(100, 50);
 //GameLogic Variables
 let life;
 let isStarted = false;
@@ -28,6 +28,7 @@ function startGame() {
 }
 function loadEvents() {
 
+
     canvas.addEventListener("mousemove", function (event) {
         if (event.offsetX <= paddle.width / 2) {
             paddle.x = 0
@@ -37,6 +38,7 @@ function loadEvents() {
             paddle.x = event.offsetX - paddle.width / 2
         }
     });
+
 
     document.addEventListener("keydown", function (event) {
         if (event.key === "ArrowLeft") {
@@ -124,7 +126,10 @@ function update() {
 }
 function drawGame() {
     paddle.draw();
+    brick.createbrick();
+    brick.drawbricks();
     ball.draw();
+
 }
 
 function tick() {
