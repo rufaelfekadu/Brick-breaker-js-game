@@ -1,4 +1,3 @@
-
 import Paddle from './paddle_class/paddle_class.js';
 import Ball from './ball_class/ball_class.js';
 import Brick from './brick_class/brick_class.js';
@@ -9,6 +8,8 @@ export let leftArrow=false;
 export let rightArrow=false;
 
 const paddle = new Paddle(150,20);
+
+const brick2 = new Brick(40,20);
 
 canvas.addEventListener("mousemove", function(event){
         if(event.clientX <= paddle.width/2){
