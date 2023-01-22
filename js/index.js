@@ -16,42 +16,57 @@ export const ball = new Ball();
 
 //GameLogic Variables
 let life;
+let isStarted = false;
 
 function startGame() {
+    isStarted = true;
     ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
     life = 3;
+    loadEvents();
     tick();
 
 }
+function loadEvents() {
 
-canvas.addEventListener("mousemove", function (event) {
-    if (event.clientX <= paddle.width / 2) {
-        paddle.x = 0
-    } else if (event.clientX >= canvas.width - paddle.width / 2) {
-        paddle.x = canvas.width - paddle.width;
-    } else {
-        paddle.x = event.clientX - paddle.width / 2
-    }
-});
-document.addEventListener("keydown", function (event) {
-    if (event.key === "ArrowLeft") {
-        leftArrow = true;
-    } else if (event.key == "ArrowRight") {
-        rightArrow = true;
-    }
-});
-document.addEventListener("keyup", function (event) {
-    if (event.key === "ArrowLeft") {
-        leftArrow = false;
-    } else if (event.key == "ArrowRight") {
-        rightArrow = false;
-    }
-});
-canvas.addEventListener("click", function (event) {
-    moveBall();
+    canvas.addEventListener("mousemove", function (event) {
+        if (event.offsetX <= paddle.width / 2) {
+            paddle.x = 0
+        } else if (event.offsetX >= canvas.width - paddle.width / 2) {
+            paddle.x = canvas.width - paddle.width;
+        } else {
+            paddle.x = event.offsetX - paddle.width / 2
+        }
+    });
 
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowLeft") {
+            leftArrow = true;
+        } else if (event.key == "ArrowRight") {
+            rightArrow = true;
+        }
+        if (event.key === " " && !ball.isMoving) {
+            moveBall();
+            ball.isMoving = true;
+        }
+    });
+    document.addEventListener("keyup", function (event) {
+        if (event.key === "ArrowLeft") {
+            leftArrow = false;
+        } else if (event.key == "ArrowRight") {
+            rightArrow = false;
+        }
+    });
 
-});
+    canvas.addEventListener("click", function (event) {
+        if (!ball.isMoving) {
+            moveBall();
+            ball.isMoving = true;
+        }
+
+    });
+
+}
+
 
 function movePaddle() {
     if (rightArrow && paddle.x + paddle.width < canvas.width) {
@@ -66,6 +81,7 @@ function moveBallOnPaddle() {
     ball.x = paddle.x + ball.radius + (paddle.width / 2);
     ball.y = paddle.y - ball.radius;
     ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
+
 }
 
 function moveBall() {
@@ -81,6 +97,7 @@ function ballWallCollision() {
     if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) {
         ball.xStep = -ball.xStep;
     }
+
     if (ball.y - ball.radius < 0) {
         ball.yStep = - ball.yStep;
     }
@@ -90,6 +107,14 @@ function ballWallCollision() {
         moveBallOnPaddle();
 
     }
+}
+
+function checkLifes() {
+
+    if (life === 0)
+        return false;
+    else
+        return true;
 }
 
 function update() {
