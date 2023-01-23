@@ -15,9 +15,9 @@ export let ballMoveAnimation_paddle;
 
 export const paddle = new Paddle(150, 20);
 export const ball = new Ball();
-const brick= new Brick(75,25);
-const wall = new Wall(6,8);
 
+const wall = new Wall(6, 8, 75, 25);
+console.log(wall);
 //GameLogic Variables
 let life;
 let isStarted = false;
@@ -115,16 +115,16 @@ function ballWallCollision() {
     }
 }
 
-function ballPaddlleCollision(){
-    if( (ball.y + ball.radius) > paddle.y &&
-        (ball.y + ball.radius) < paddle.y + paddle.height && 
-        (ball.x + ball.radius) > paddle.x && 
-        (ball.x - ball.radius) < paddle.x + paddle.width ){
-        let collidePoint = ball.x - (paddle.x + paddle.width/2);
-        collidePoint = collidePoint / (paddle.width/2);
-        let angle = collidePoint * (Math.PI /3) ;
-        ball.xStep= ball.speed * Math.sin(angle);
-        ball.yStep= - ball.speed * Math.cos(angle);
+function ballPaddlleCollision() {
+    if ((ball.y + ball.radius) > paddle.y &&
+        (ball.y + ball.radius) < paddle.y + paddle.height &&
+        (ball.x + ball.radius) > paddle.x &&
+        (ball.x - ball.radius) < paddle.x + paddle.width) {
+        let collidePoint = ball.x - (paddle.x + paddle.width / 2);
+        collidePoint = collidePoint / (paddle.width / 2);
+        let angle = collidePoint * (Math.PI / 3);
+        ball.xStep = ball.speed * Math.sin(angle);
+        ball.yStep = - ball.speed * Math.cos(angle);
     }
 }
 
@@ -143,8 +143,8 @@ function update() {
 }
 function drawGame() {
     paddle.draw();
-    wall.createbrick( brick);
-    wall.drawbricks( brick);
+    wall.createbrick();
+    wall.drawbricks();
     ball.draw();
 
 }
