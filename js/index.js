@@ -115,6 +115,16 @@ function ballWallCollision() {
     }
 }
 
+function ballPaddlleCollision(){
+    if((ball.y + ball.radius)>paddle.y &&(ball.y + ball.radius)< paddle.y + paddle.height && (ball.x + ball.radius) > paddle.x && (ball.x + ball.radius) <paddle.x+paddle.width ){
+        let collidePoint_atPaddle = (ball.x + ball.radius) - (paddle.x + paddle.width/2);
+        collidePoint_atPaddle = collidePoint_atPaddle / (paddle.width/2);
+        let angle = collidePoint_atPaddle * (Math.PI /2);
+        ball.xStep= ball.speed * Math.sin(angle);
+        ball.yStep= - ball.speed * Math.cos(angle);
+    }
+}
+
 function checkLifes() {
 
     if (life === 0)
@@ -124,9 +134,9 @@ function checkLifes() {
 }
 
 function update() {
-
     movePaddle();
     ballWallCollision();
+    ballPaddlleCollision();
 }
 function drawGame() {
     paddle.draw();
