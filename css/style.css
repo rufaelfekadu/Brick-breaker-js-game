@@ -1,6 +1,13 @@
+@import url(//fonts.googleapis.com/css?family=Vibur);
+@font-face {
+  font-family: moon;
+  src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/moon.ttf);
+}
+
 * {
   box-sizing: border-box;
 }
+
 body {
   /* background-color: black; */
   background-image: url("../images/bk.jpg");
@@ -15,10 +22,24 @@ main {
   flex-direction: column;
   align-items: center;
 }
-header {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 5px;
-  flex: 1;
+.logo {
+  text-align: center;
+  width: 65%;
+  height: 170px;
+  margin: auto;
+  user-select: none;
+}
+.logo b {
+  font: 400 15vh "Vibur";
+  font-family: moon;
+  color: #fee;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff4444, 0 0 0.5em #ff4444, 0 0 0.1em #ff4444, 0 10px 3px #000;
+}
+.logo b span{
+  animation: blink linear infinite 2s;
+}
+.logo b span:nth-of-type(2){
+  animation: blink linear infinite 3s;
 }
 
 div {
@@ -39,19 +60,54 @@ aside {
   border: #fc49ab 2px solid;
 }
 
-@font-face {
-  font-family: moon;
-  src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/moon.ttf);
-}
 
-.gameTitle {
+/* header {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  flex: 1;
+} */
+/* .gameTitle {
   font-family: moon;
   font-size: 6.3vw;
   margin-left: 1.5vw;
   animation: gameTitle 1.5s 2s ease infinite;
+} */
+
+@keyframes blink {
+  78% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  79%{
+    color: #333;
+  }
+  80% {
+    
+    text-shadow: none;
+  }
+  81% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  82% {
+    color: #333;
+    text-shadow: none;
+  }
+  83% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+  92% {
+    color: #333;
+    text-shadow: none;
+  }
+  92.5% {
+    color: inherit;
+    text-shadow: inherit;
+  }
 }
 
-@keyframes gameTitle {
+/* @keyframes gameTitle {
   0%,
   100% {
     text-shadow: -0.1vw 0vw 0.1vw #fed128, -0.15vw 0vw 0.2vw #fed128,
@@ -67,4 +123,4 @@ aside {
       -0.4vw 0vw 0.2vw #d4120b, 0.2vw 0vw 0.5vw #d4120b;
     color: #ebc026;
   }
-}
+} */
