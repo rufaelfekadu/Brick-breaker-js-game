@@ -1,6 +1,8 @@
 import Paddle from './paddle_class/paddle_class.js';
 import Ball from './ball_class/ball_class.js';
 import Brick from './brick_class/brick_class.js';
+import Wall from './wall_class/wall_class.js';
+
 
 export const canvas = document.getElementById('game-canvas');
 export const ctx = canvas.getContext('2d');
@@ -13,7 +15,9 @@ export let ballMoveAnimation_paddle;
 
 export const paddle = new Paddle(150, 20);
 export const ball = new Ball();
-const brick = new Brick(100, 50);
+const brick= new Brick(75,25);
+const wall = new Wall(6,8);
+
 //GameLogic Variables
 let life;
 let isStarted = false;
@@ -126,8 +130,8 @@ function update() {
 }
 function drawGame() {
     paddle.draw();
-    brick.createbrick();
-    brick.drawbricks();
+    wall.createbrick( brick);
+    wall.drawbricks( brick);
     ball.draw();
 
 }
