@@ -116,10 +116,13 @@ function ballWallCollision() {
 }
 
 function ballPaddlleCollision(){
-    if((ball.y + ball.radius)>paddle.y &&(ball.y + ball.radius)< paddle.y + paddle.height && (ball.x + ball.radius) > paddle.x && (ball.x + ball.radius) <paddle.x+paddle.width ){
-        let collidePoint_atPaddle = (ball.x + ball.radius) - (paddle.x + paddle.width/2);
-        collidePoint_atPaddle = collidePoint_atPaddle / (paddle.width/2);
-        let angle = collidePoint_atPaddle * (Math.PI /2);
+    if( (ball.y + ball.radius) > paddle.y &&
+        (ball.y + ball.radius) < paddle.y + paddle.height && 
+        (ball.x + ball.radius) > paddle.x && 
+        (ball.x - ball.radius) < paddle.x + paddle.width ){
+        let collidePoint = ball.x - (paddle.x + paddle.width/2);
+        collidePoint = collidePoint / (paddle.width/2);
+        let angle = collidePoint * (Math.PI /3) ;
         ball.xStep= ball.speed * Math.sin(angle);
         ball.yStep= - ball.speed * Math.cos(angle);
     }
