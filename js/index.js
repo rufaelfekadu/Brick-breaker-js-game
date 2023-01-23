@@ -17,7 +17,7 @@ export const paddle = new Paddle(150, 20);
 export const ball = new Ball();
 
 const wall = new Wall(6, 8, 75, 25);
-console.log(wall);
+// console.log(wall);
 //GameLogic Variables
 let life;
 let isStarted = false;
@@ -140,6 +140,7 @@ function update() {
     movePaddle();
     ballWallCollision();
     ballPaddlleCollision();
+    wall.collisionbrick();
 }
 function drawGame() {
     paddle.draw();
