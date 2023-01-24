@@ -15,13 +15,12 @@ export let ballMoveAnimation_paddle;
 
 export const paddle = new Paddle(150, 20);
 export const ball = new Ball();
-
 const wall = new Wall(6, 8, 75, 25);
 // console.log(wall);
 //GameLogic Variables
 let life;
 let isStarted = false;
-
+let score=0;
 function startGame() {
     isStarted = true;
     ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
@@ -128,6 +127,39 @@ function ballPaddlleCollision() {
     }
 }
 
+
+ function collisionbrick(){
+    for(let r=0; r< wall.row;r++)
+    {
+        for(let c=0;c<wall.column;c++){
+        var b=wall.bricks[r][c];
+      
+          if(b.status){
+            
+   if(
+    ball.x - ball.radius < b.x + wall.width &&
+    ball.x + ball.radius > b.x &&
+    ball.y - ball.radius < b.y + wall.height &&
+    ball.y + ball.radius > b.y
+    )
+{ 
+        ball.yStep = - ball.yStep;
+         b.status = false;
+         score+=1;
+
+        //  wall.destroyBrick(b.x,b.y,b.status=false);
+// wall.destroyBricks()
+console.log(b.status)
+console.log(score)
+
+}
+  }
+  }
+
+  }
+ 
+  }
+
 function checkLifes() {
 
     if (life === 0)
@@ -140,7 +172,7 @@ function update() {
     movePaddle();
     ballWallCollision();
     ballPaddlleCollision();
-    wall.collisionbrick();
+    collisionbrick();
 }
 function drawGame() {
     paddle.draw();
