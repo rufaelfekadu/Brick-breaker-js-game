@@ -27,9 +27,9 @@ createBrick(x, y , status){
 
         destroyBrick(x, y , status){
 
-                Canvas.ctx.fillStyle=this.fillColor="#FFFF";
+                Canvas.ctx.fillStyle=this.fillColor="#FFFFFF7F";
                 Canvas.ctx.fillRect(x ,y ,this.width , this.height );
-                Canvas.ctx.strockStyle = this.strokeColor="#FFFF";
+                Canvas.ctx.strockStyle = this.strokeColor="#FFFFFF7F";
                 Canvas.ctx.strokeRect(x , y ,this.width , this.height);
                 return {x:x , y: y ,width:this.width , height:this.height, status:status};
             }

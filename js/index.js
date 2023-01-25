@@ -3,6 +3,9 @@ import Ball from './ball_class/ball_class.js';
 import Brick from './brick_class/brick_class.js';
 import Wall from './wall_class/wall_class.js';
 
+//HTML elements
+const welcomeScreen = document.getElementById("welcomeScreen");
+const start_btn = document.getElementById("startGame");
 
 export const canvas = document.getElementById('game-canvas');
 export const ctx = canvas.getContext('2d');
@@ -11,19 +14,30 @@ export let leftArrow = false;
 export let rightArrow = false;
 export let ballMoveAnimation;
 export let ballMoveAnimation_paddle;
-export let fillStyle = "#000";
-export let strockStyle="#000";
+export let fillStyle = "#FFFFFF7F";
+export let strockStyle="#FFFFFF7F";
+
+//Event Listeners
+start_btn.addEventListener("click", startGame);
 
 export const paddle = new Paddle(150, 20);
 export const ball = new Ball();
 const wall = new Wall(6, 8, 75, 25);
 const bricks = new Brick(75,25);
 // console.log(bricks);
+// console.log(wall);
+
+
 //GameLogic Variables
 let life;
 let isStarted = false;
 let score = 0;
+
+
+
+
 function startGame() {
+    welcomeScreen.style.display = 'none';
     isStarted = true;
     ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
     life = 3;
@@ -126,6 +140,8 @@ function ballPaddlleCollision() {
         ball.yStep = - ball.speed * Math.cos(angle);
     }
 }
+
+
 function collisionbrick() {
     for (let r = 0; r < wall.row; r++) {
         for (let c = 0; c < wall.column; c++) {
@@ -138,15 +154,15 @@ function collisionbrick() {
                     (ball.y + ball.radius) > b.y) {
                     ball.yStep = - ball.yStep;
                     b.status = false;
-                    score += 1;
                     if(b.status == false){
                     bricks.destroyBrick(b.x,b.y,b.status);
-// console.log(bricks.destroyBrick(b.x,b.y,b.status))
+                    score++ ;
                     }
                 }
             }
         }
     }
+
 }
 
 function checkLifes() {
@@ -178,5 +194,5 @@ function tick() {
     requestAnimationFrame(tick);
 }
 
-startGame();
+//startGame();
 

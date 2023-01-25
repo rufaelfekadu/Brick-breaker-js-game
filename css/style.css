@@ -1,4 +1,4 @@
-@import url(//fonts.googleapis.com/css?family=Vibur);
+@import url(//fonts.googleapis.com/css?family=Vibur&effect=neon);
 @font-face {
   font-family: moon;
   src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/moon.ttf);
@@ -6,6 +6,8 @@
 
 * {
   box-sizing: border-box;
+  padding: 0%;
+  margin: 0%;
 }
 
 body {
@@ -14,9 +16,47 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  padding: 0%;
-  margin: 0%;
+
+  overflow: hidden;
 }
+#welcomeScreen {
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: -1.2%;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#welcomeScreen div {
+  border: #5fe8ff 0.5em solid;
+  width: 32%;
+  height: 40%;
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0.5em 0 #5fe8ff, 0 0 0.5em 0 #5fe8ff;
+}
+#welcomeScreen button {
+  cursor: pointer;
+  background-color: transparent;
+  color: #a1055b;
+  font-size: 5rem;
+  font-family: moon;
+  letter-spacing: 1.5rem;
+  margin-left: 2.5rem;
+}
+
+#welcomeScreen button:hover {
+  color: #d63d91;
+}
+
 main {
   display: flex;
   flex-direction: column;
@@ -33,12 +73,13 @@ main {
   font: 400 15vh "Vibur";
   font-family: moon;
   color: #fee;
-  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff4444, 0 0 0.5em #ff4444, 0 0 0.1em #ff4444, 0 10px 3px #000;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #ff4444, 0 0 0.5em #ff4444,
+    0 0 0.1em #ff4444, 0 10px 3px #000;
 }
-.logo b span{
+.logo b span {
   animation: blink linear infinite 2s;
 }
-.logo b span:nth-of-type(2){
+.logo b span:nth-of-type(2) {
   animation: blink linear infinite 3s;
 }
 
@@ -60,7 +101,6 @@ aside {
   border: #fc49ab 2px solid;
 }
 
-
 /* header {
   background: rgba(0, 0, 0, 0.2);
   padding: 5px;
@@ -78,11 +118,10 @@ aside {
     color: inherit;
     text-shadow: inherit;
   }
-  79%{
+  79% {
     color: #333;
   }
   80% {
-    
     text-shadow: none;
   }
   81% {
