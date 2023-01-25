@@ -46,15 +46,18 @@ body {
 #welcomeScreen button {
   cursor: pointer;
   background-color: transparent;
-  color: #a1055b;
+  color: #d63d91;
   font-size: 5rem;
   font-family: moon;
   letter-spacing: 1.5rem;
   margin-left: 2.5rem;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #d63d91, 0 0 0.5em #d63d91,
+    0 0 0.1em #d63d91, 0 10px 3px #000;
+    
 }
 
 #welcomeScreen button:hover {
-  color: #d63d91;
+  color: #ff4444;
 }
 
 main {
