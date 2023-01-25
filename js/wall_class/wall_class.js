@@ -7,6 +7,7 @@ class Wall extends Brick {
     this.column = column;
     this.bricks = [];
   }
+  
 
   createbrick() {
     for (let r = 0; r < this.row; r++) {
@@ -41,14 +42,15 @@ class Wall extends Brick {
   // destroyBricks() {
   //     for (let r = 0; r < this.row; r++) {
   //       for (let c = 0; c < this.column; c++) {
-  //         if (this.bricks[r][c].status) {
+  //         if ((this.bricks[r][c].status==false)) {
   //           let x = c * (this.width + this.offsetleft) + this.offsetleft;
   //           let y = r * (this.height + this.offsettop) + this.offsettop + this.margintop;
-  //           this.bricks[r][c] = super.destroyBrick(x, y,this.bricks[r][c].status);
+  //           this.bricks[r][c] = super.destroyBrick(this.bricks[r][c].status);
   //         }
   //       }
   //     }
   // }
 
+  
 }
 export default Wall;
