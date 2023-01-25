@@ -12,8 +12,12 @@ const start_btn = document.getElementById("startGame");
 const pause_btn = document.getElementById("pause");
 const restart_btn = document.getElementById("restart");
 const scoreBoard = document.getElementById("score");
+const life1 = document.getElementById("lifeOne");
+const life2 = document.getElementById("lifeTwo");
+const life3 = document.getElementById("lifeThree");
 
-
+const brokenHeartIcon = "fa-heart-crack";
+const heartIcon = "fa-heart";
 let leftArrow = false;
 let rightArrow = false;
 export let ballMoveAnimation;
@@ -66,10 +70,14 @@ function pause() {
     pause_btn.removeEventListener('click', pause);
     pause_btn.addEventListener('click', resume);
     pause_btn.innerHTML = "RESUME";
+    restart_btn.disabled = !restart_btn.disabled;
+    restart_btn.style.cursor = 'not-allowed';
 }
 
 function resume() {
     tick();
+    restart_btn.disabled = !restart_btn.disabled;
+    restart_btn.style.cursor = 'pointer';
     ballMoveAnimation = requestAnimationFrame(moveBall);
     pause_btn.classList.remove("btn_active");
     pause_btn.addEventListener('click', pause);
@@ -80,10 +88,8 @@ function resume() {
 function gameOver() {
     cancelAnimationFrame(gameAnimation);
     welcomeScreen.style.display = 'flex';
-
     cancelAnimationFrame(ballMoveAnimation_paddle);
     cancelAnimationFrame(ballMoveAnimation);
-
     start_btn.innerHTML = "PLAY AGAIN";
 
 }
@@ -196,16 +202,16 @@ function ballBrickCollision() {
             var b = wall.bricks[r][c];
             if (b.brick_strength > 0) {
                 if (
-                    Math.floor(ball.x - ball.radius) < (b.x + b.width ) &&
+                    Math.floor(ball.x - ball.radius) < (b.x + b.width) &&
                     Math.floor(ball.x + ball.radius) > b.x &&
                     Math.floor(ball.y - ball.radius) < (b.y + b.height) &&
-                    Math.floor(ball.y + ball.radius) > b.y ) {
+                    Math.floor(ball.y + ball.radius) > b.y) {
                     ball.yStep = - ball.yStep;
-                    if (b.brick_strength === 2 || b.brick_strength === 1){
+                    if (b.brick_strength === 2 || b.brick_strength === 1) {
                         b.brick_strength--;
-                        score+=10;
+                        score += 10;
                     }
-                    scoreBoard.value=score;
+                    scoreBoard.value = score;
                 }
             }
         }
@@ -214,6 +220,47 @@ function ballBrickCollision() {
 }
 
 function checkLifes() {
+    switch (life) {
+        case 2:
+            life1.classList.add(heartIcon);
+            life2.classList.add(heartIcon);
+            life3.classList.remove(heartIcon);
+            life3.classList.add(brokenHeartIcon);
+            life1.style.color = '#ff6c17';
+            life2.style.color = '#ff6c17';
+            life3.style.color = '#B44505';
+            break;
+        case 1:
+            life1.classList.add(heartIcon);
+            life2.classList.remove(heartIcon);
+            life3.classList.remove(heartIcon);
+            life2.classList.add(brokenHeartIcon);
+            life3.classList.add(brokenHeartIcon);
+            life1.style.color = '#ff6c17';
+            life2.style.color = '#B44505';
+            life3.style.color = '#B44505';
+            break;
+        case 0:
+            life1.classList.remove(heartIcon);
+            life2.classList.remove(heartIcon);
+            life3.classList.remove(heartIcon);
+            life1.classList.add(brokenHeartIcon);
+            life2.classList.add(brokenHeartIcon);
+            life3.classList.add(brokenHeartIcon);
+            life1.style.color = '#B44505';
+            life2.style.color = '#B44505';
+            life3.style.color = '#B44505';
+            break;
+
+        default:
+            life1.classList.add(heartIcon);
+            life2.classList.add(heartIcon);
+            life3.classList.add(heartIcon);
+            life1.style.color = '#ff6c17';
+            life2.style.color = '#ff6c17';
+            life3.style.color = '#ff6c17';
+            break;
+    }
 
     if (life === 0)
         return false;
@@ -242,11 +289,10 @@ function tick() {
         gameOver();
         return;
     }
-    if (gameRestart)
-     { 
-        score=0;
+    if (gameRestart) {
+        score = 0;
         return;
-     }
+    }
 }
 
 //startGame();
