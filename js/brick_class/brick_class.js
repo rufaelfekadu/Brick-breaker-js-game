@@ -1,6 +1,4 @@
 import * as Canvas from '../index.js'
-
-
 class Brick
 {
     constructor(width,height,x,y,status)
@@ -19,14 +17,6 @@ class Brick
         Canvas.ctx.fillStyle=this.fillColor;
         Canvas.ctx.fillRect(this.x ,this.y ,this.width , this.height );
         Canvas.ctx.strockStyle = this.strokeColor;
-        Canvas.ctx.strokeRect(this.x , this.y ,this.width , this.height);
-    }
-
-    destroyBrick()
-    {
-        Canvas.ctx.fillStyle=this.fillColor="#FFFFFF7F";
-        Canvas.ctx.fillRect(this.x ,this.y ,this.width , this.height );
-        Canvas.ctx.strockStyle = this.strokeColor="#FFFFFF7F";
         Canvas.ctx.strokeRect(this.x , this.y ,this.width , this.height);
     }
 }

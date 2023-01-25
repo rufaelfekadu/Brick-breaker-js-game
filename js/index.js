@@ -4,18 +4,17 @@ import Brick from './brick_class/brick_class.js';
 import Wall from './wall_class/wall_class.js';
 
 //HTML elements
-const welcomeScreen = document.getElementById("welcomeScreen");
-const start_btn = document.getElementById("startGame");
-
 export const canvas = document.getElementById('game-canvas');
 export const ctx = canvas.getContext('2d');
 
-export let leftArrow = false;
-export let rightArrow = false;
+const welcomeScreen = document.getElementById("welcomeScreen");
+const start_btn = document.getElementById("startGame");
+
+
+let leftArrow = false;
+let rightArrow = false;
 export let ballMoveAnimation;
-export let ballMoveAnimation_paddle;
-export let fillStyle = "#FFFFFF7F";
-export let strockStyle="#FFFFFF7F";
+let ballMoveAnimation_paddle;
 
 //Event Listeners
 start_btn.addEventListener("click", startGame);
@@ -24,19 +23,14 @@ export const paddle = new Paddle(150, 20);
 export const ball = new Ball();
 const wall = new Wall(6, 8, 75, 25);
 const bricks = new Brick(75,25);
-// console.log(bricks);
-
-
 
 //GameLogic Variables
 let life;
 let isStarted = false;
 let score = 0;
 
-
-
-
 function startGame() {
+    wall.createbrick();
     welcomeScreen.style.display = 'none';
     isStarted = true;
     ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
@@ -45,9 +39,8 @@ function startGame() {
     tick();
 
 }
+
 function loadEvents() {
-
-
     canvas.addEventListener("mousemove", function (event) {
         if (event.offsetX <= paddle.width / 2) {
             paddle.x = 0
@@ -57,7 +50,6 @@ function loadEvents() {
             paddle.x = event.offsetX - paddle.width / 2
         }
     });
-
 
     document.addEventListener("keydown", function (event) {
         if (event.key === "ArrowLeft") {
@@ -85,7 +77,6 @@ function loadEvents() {
         }
 
     });
-
 }
 
 
@@ -98,11 +89,9 @@ function movePaddle() {
 }
 
 function moveBallOnPaddle() {
-
     ball.x = paddle.x + ball.radius + (paddle.width / 2);
     ball.y = paddle.y - ball.radius;
     ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
-
 }
 
 function moveBall() {
@@ -141,23 +130,19 @@ function ballPaddlleCollision() {
     }
 }
 
-
-function collisionbrick() {
+function ballBrickCollision() {
     for (let r = 0; r < wall.row; r++) {
         for (let c = 0; c < wall.column; c++) {
             var b = wall.bricks[r][c];
             if (b.status) {
                 if (
-                    (ball.x - ball.radius) < (b.x + wall.width) &&
+                    (ball.x - ball.radius) < (b.x + b.width) &&
                     (ball.x + ball.radius) > b.x &&
-                    (ball.y - ball.radius) < (b.y + wall.height) &&
+                    (ball.y - ball.radius) < (b.y + b.height) &&
                     (ball.y + ball.radius) > b.y) {
                     ball.yStep = - ball.yStep;
                     b.status = false;
-                    if(b.status == false){
-                    bricks.destroyBrick(b.x,b.y,b.status);
                     score++;
-                    }
                 }
             }
         }
@@ -177,11 +162,10 @@ function update() {
     movePaddle();
     ballWallCollision();
     ballPaddlleCollision();
-    collisionbrick();
+    ballBrickCollision();
 }
 function drawGame() {
     paddle.draw();
-    wall.createbrick();
     wall.drawbricks();
     ball.draw();
 }

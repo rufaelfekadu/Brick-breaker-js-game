@@ -12,7 +12,6 @@ class Wall {
     this.bricks = [];
   }
   
-
   createbrick() {
     for (let r = 0; r < this.row; r++) {
       this.bricks[r] = [];
@@ -38,19 +37,6 @@ class Wall {
       }
     }
   }
-
-  // destroyBricks() {
-  //     for (let r = 0; r < this.row; r++) {
-  //       for (let c = 0; c < this.column; c++) {
-  //         if ((this.bricks[r][c].status==false)) {
-  //           let x = c * (this.width + this.offsetleft) + this.offsetleft;
-  //           let y = r * (this.height + this.offsettop) + this.offsettop + this.margintop;
-  //           this.bricks[r][c] = super.destroyBrick(this.bricks[r][c].status);
-  //         }
-  //       }
-  //     }
-  // }
-
   
 }
 export default Wall;
