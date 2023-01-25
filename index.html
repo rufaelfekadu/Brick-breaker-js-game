@@ -6,6 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500&family=Unbounded:wght@200;300&display=swap&effect=neon"
+        rel="stylesheet">
     <script src="./js/index.js" type="module" defer></script>
     <title>Brick Breaker game</title>
 </head>
@@ -19,15 +24,27 @@
     <main>
         <header><div class="logo"><b>b<span>ri</span>ck<span>br</span><span>e</span><span>a</span><span>k</span>er</b></div></header>
         <div>
-            <aside> left Aside
-                <button></button>
-
+            <aside id="leftAside">
+                <button class="neon-button" type="button" id="restart">RESTART</button>
+                <button class="neon-button" type="button" id="pause">PAUSE</button>
+                <div class="lives">
+                    <h2>LIFE</h2>
+                    <div id="hearts">
+                        <p class="life" id="lifeOne">&hearts;</p>
+                        <p class="life" id="lifeOne">&hearts;</p>
+                        <p class="life" id="lifeOne">&hearts;</p>
+                    </div>
+                </div>
 
             </aside>
 
-            <canvas id="game-canvas" width="1000" height="610"></canvas>
+            <canvas id="game-canvas" width="1000" height="607"></canvas>
 
-            <aside> Right Aside </aside>
+            <aside id="rightAside">
+
+                <label for="score" id="score_label">SCORE</label>
+                <input type="text" id="score" disabled>
+            </aside>
         </div>
 
 

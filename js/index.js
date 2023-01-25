@@ -9,12 +9,17 @@ export const ctx = canvas.getContext('2d');
 
 const welcomeScreen = document.getElementById("welcomeScreen");
 const start_btn = document.getElementById("startGame");
+const pause_btn = document.getElementById("pause");
+const restart_btn = document.getElementById("restart");
+const scoreBoard = document.getElementById("score");
 
 
 let leftArrow = false;
 let rightArrow = false;
 export let ballMoveAnimation;
-let ballMoveAnimation_paddle;
+export let ballMoveAnimation_paddle;
+export let gameAnimation;
+
 
 //Event Listeners
 start_btn.addEventListener("click", startGame);
@@ -22,25 +27,71 @@ start_btn.addEventListener("click", startGame);
 export const paddle = new Paddle(150, 20);
 export const ball = new Ball();
 const wall = new Wall(6, 8, 75, 25);
-const bricks = new Brick(75,25);
 
 //GameLogic Variables
 let life;
 let isStarted = false;
+let gameRestart = false;
 let score = 0;
+
+
+function stopAnimation() {
+
+    cancelAnimationFrame(gameAnimation);
+    cancelAnimationFrame(ballMoveAnimation_paddle);
+    cancelAnimationFrame(ballMoveAnimation);
+}
 
 function startGame() {
     wall.createbrick();
     welcomeScreen.style.display = 'none';
-    isStarted = true;
+
     ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
     life = 3;
+    start_btn.innerHTML = "START";
+    ball.isMoving = false;
+    score = 0;
+    scoreBoard.value = score;
     loadEvents();
     tick();
+    gameRestart = false;
 
 }
+// function restart() {
 
+// }
+function pause() {
+    stopAnimation();
+    pause_btn.classList.add("btn_active");
+    pause_btn.removeEventListener('click', pause);
+    pause_btn.addEventListener('click', resume);
+    pause_btn.innerHTML = "RESUME";
+}
+
+function resume() {
+    tick();
+    ballMoveAnimation = requestAnimationFrame(moveBall);
+    pause_btn.classList.remove("btn_active");
+    pause_btn.addEventListener('click', pause);
+    pause_btn.removeEventListener('click', resume);
+    pause_btn.innerHTML = "PAUSE";
+}
+
+function gameOver() {
+    cancelAnimationFrame(gameAnimation);
+    welcomeScreen.style.display = 'flex';
+
+    cancelAnimationFrame(ballMoveAnimation_paddle);
+    cancelAnimationFrame(ballMoveAnimation);
+
+    start_btn.innerHTML = "PLAY AGAIN";
+
+}
 function loadEvents() {
+
+    pause_btn.addEventListener('click', pause);
+
+
     canvas.addEventListener("mousemove", function (event) {
         if (event.offsetX <= paddle.width / 2) {
             paddle.x = 0
@@ -77,6 +128,14 @@ function loadEvents() {
         }
 
     });
+
+
+    restart_btn.addEventListener('click', () => {
+        stopAnimation();
+        gameRestart = true;
+        startGame();
+    });
+
 }
 
 
@@ -115,6 +174,7 @@ function ballWallCollision() {
         ball.reset();
         moveBallOnPaddle();
     }
+
 }
 
 function ballPaddlleCollision() {
@@ -174,7 +234,12 @@ function tick() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawGame();
     update();
-    requestAnimationFrame(tick);
+    gameAnimation = requestAnimationFrame(tick);
+    if (!checkLifes()) {
+        gameOver();
+        return;
+    }
+    if (gameRestart) { return; }
 }
 
 //startGame();
