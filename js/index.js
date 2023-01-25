@@ -212,6 +212,7 @@ function collisionbrick() {
                     if (b.status == false) {
                         bricks.destroyBrick(b.x, b.y, b.status);
                         score++;
+                        scoreBoard.value = score;
                     }
                 }
             }
