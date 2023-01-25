@@ -6,6 +6,9 @@ import Wall from './wall_class/wall_class.js';
 //HTML elements
 const welcomeScreen = document.getElementById("welcomeScreen");
 const start_btn = document.getElementById("startGame");
+const pause_btn = document.getElementById("pause");
+const restart_btn = document.getElementById("restart");
+const scoreBoard = document.getElementById("score");
 
 export const canvas = document.getElementById('game-canvas');
 export const ctx = canvas.getContext('2d');
@@ -14,6 +17,7 @@ export let leftArrow = false;
 export let rightArrow = false;
 export let ballMoveAnimation;
 export let ballMoveAnimation_paddle;
+export let gameAnimation;
 
 
 //Event Listeners
@@ -28,21 +32,64 @@ const wall = new Wall(6, 8, 75, 25);
 //GameLogic Variables
 let life;
 let isStarted = false;
+let gameRestart = false;
 let score = 0;
 
 
+function stopAnimation() {
 
+    cancelAnimationFrame(gameAnimation);
+    cancelAnimationFrame(ballMoveAnimation_paddle);
+    cancelAnimationFrame(ballMoveAnimation);
+}
 
 function startGame() {
     welcomeScreen.style.display = 'none';
-    isStarted = true;
+
     ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
     life = 3;
+    start_btn.innerHTML = "START";
+    ball.isMoving = false;
+    score = 0;
+    scoreBoard.value = score;
     loadEvents();
     tick();
+    gameRestart = false;
+
+}
+// function restart() {
+
+// }
+function pause() {
+    stopAnimation();
+    pause_btn.classList.add("btn_active");
+    pause_btn.removeEventListener('click', pause);
+    pause_btn.addEventListener('click', resume);
+    pause_btn.innerHTML = "RESUME";
+}
+
+function resume() {
+    tick();
+    ballMoveAnimation = requestAnimationFrame(moveBall);
+    pause_btn.classList.remove("btn_active");
+    pause_btn.addEventListener('click', pause);
+    pause_btn.removeEventListener('click', resume);
+    pause_btn.innerHTML = "PAUSE";
+}
+
+function gameOver() {
+    cancelAnimationFrame(gameAnimation);
+    welcomeScreen.style.display = 'flex';
+
+    cancelAnimationFrame(ballMoveAnimation_paddle);
+    cancelAnimationFrame(ballMoveAnimation);
+
+    start_btn.innerHTML = "PLAY AGAIN";
 
 }
 function loadEvents() {
+
+    pause_btn.addEventListener('click', pause);
 
 
     canvas.addEventListener("mousemove", function (event) {
@@ -81,6 +128,13 @@ function loadEvents() {
             ball.isMoving = true;
         }
 
+    });
+
+
+    restart_btn.addEventListener('click', () => {
+        stopAnimation();
+        gameRestart = true;
+        startGame();
     });
 
 }
@@ -125,6 +179,7 @@ function ballWallCollision() {
         moveBallOnPaddle();
 
     }
+
 }
 
 function ballPaddlleCollision() {
@@ -157,7 +212,7 @@ function collisionbrick() {
                     ball.yStep = - ball.yStep;
                     b.status = false;
                     score += 1;
-
+                    scoreBoard.value = score;
                     //  wall.destroyBrick(b.x,b.y,b.status=false);
                     // wall.destroyBricks()
                     console.log(b.status)
@@ -197,7 +252,12 @@ function tick() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawGame();
     update();
-    requestAnimationFrame(tick);
+    gameAnimation = requestAnimationFrame(tick);
+    if (!checkLifes()) {
+        gameOver();
+        return;
+    }
+    if (gameRestart) { return; }
 }
 
 //startGame();
