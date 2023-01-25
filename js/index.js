@@ -4,18 +4,22 @@ import Brick from './brick_class/brick_class.js';
 import Wall from './wall_class/wall_class.js';
 
 //HTML elements
-const welcomeScreen = document.getElementById("welcomeScreen");
-const start_btn = document.getElementById("startGame");
-
 export const canvas = document.getElementById('game-canvas');
 export const ctx = canvas.getContext('2d');
 
-export let leftArrow = false;
-export let rightArrow = false;
+const welcomeScreen = document.getElementById("welcomeScreen");
+const start_btn = document.getElementById("startGame");
+const pause_btn = document.getElementById("pause");
+const restart_btn = document.getElementById("restart");
+const scoreBoard = document.getElementById("score");
+
+
+let leftArrow = false;
+let rightArrow = false;
 export let ballMoveAnimation;
 export let ballMoveAnimation_paddle;
-export let fillStyle = "#FFFFFF7F";
-export let strockStyle="#FFFFFF7F";
+export let gameAnimation;
+
 
 //Event Listeners
 start_btn.addEventListener("click", startGame);
@@ -23,29 +27,69 @@ start_btn.addEventListener("click", startGame);
 export const paddle = new Paddle(150, 20);
 export const ball = new Ball();
 const wall = new Wall(6, 8, 75, 25);
-const bricks = new Brick(75,25);
-// console.log(bricks);
-// console.log(wall);
-
 
 //GameLogic Variables
 let life;
 let isStarted = false;
+let gameRestart = false;
 let score = 0;
 
 
+function stopAnimation() {
 
+    cancelAnimationFrame(gameAnimation);
+    cancelAnimationFrame(ballMoveAnimation_paddle);
+    cancelAnimationFrame(ballMoveAnimation);
+}
 
 function startGame() {
+    wall.createbrick();
     welcomeScreen.style.display = 'none';
-    isStarted = true;
+
     ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
     life = 3;
+    start_btn.innerHTML = "START";
+    ball.isMoving = false;
+    score = 0;
+    scoreBoard.value = score;
     loadEvents();
     tick();
+    gameRestart = false;
+
+}
+// function restart() {
+
+// }
+function pause() {
+    stopAnimation();
+    pause_btn.classList.add("btn_active");
+    pause_btn.removeEventListener('click', pause);
+    pause_btn.addEventListener('click', resume);
+    pause_btn.innerHTML = "RESUME";
+}
+
+function resume() {
+    tick();
+    ballMoveAnimation = requestAnimationFrame(moveBall);
+    pause_btn.classList.remove("btn_active");
+    pause_btn.addEventListener('click', pause);
+    pause_btn.removeEventListener('click', resume);
+    pause_btn.innerHTML = "PAUSE";
+}
+
+function gameOver() {
+    cancelAnimationFrame(gameAnimation);
+    welcomeScreen.style.display = 'flex';
+
+    cancelAnimationFrame(ballMoveAnimation_paddle);
+    cancelAnimationFrame(ballMoveAnimation);
+
+    start_btn.innerHTML = "PLAY AGAIN";
 
 }
 function loadEvents() {
+
+    pause_btn.addEventListener('click', pause);
 
 
     canvas.addEventListener("mousemove", function (event) {
@@ -57,7 +101,6 @@ function loadEvents() {
             paddle.x = event.offsetX - paddle.width / 2
         }
     });
-
 
     document.addEventListener("keydown", function (event) {
         if (event.key === "ArrowLeft") {
@@ -86,6 +129,13 @@ function loadEvents() {
 
     });
 
+
+    restart_btn.addEventListener('click', () => {
+        stopAnimation();
+        gameRestart = true;
+        startGame();
+    });
+
 }
 
 
@@ -98,11 +148,9 @@ function movePaddle() {
 }
 
 function moveBallOnPaddle() {
-
     ball.x = paddle.x + ball.radius + (paddle.width / 2);
     ball.y = paddle.y - ball.radius;
     ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
-
 }
 
 function moveBall() {
@@ -126,6 +174,7 @@ function ballWallCollision() {
         ball.reset();
         moveBallOnPaddle();
     }
+
 }
 
 function ballPaddlleCollision() {
@@ -141,23 +190,21 @@ function ballPaddlleCollision() {
     }
 }
 
-
-function collisionbrick() {
+function ballBrickCollision() {
     for (let r = 0; r < wall.row; r++) {
         for (let c = 0; c < wall.column; c++) {
             var b = wall.bricks[r][c];
             if (b.status) {
                 if (
-                    (ball.x - ball.radius) < (b.x + wall.width) &&
+                    (ball.x - ball.radius) < (b.x + b.width) &&
                     (ball.x + ball.radius) > b.x &&
-                    (ball.y - ball.radius) < (b.y + wall.height) &&
+                    (ball.y - ball.radius) < (b.y + b.height) &&
                     (ball.y + ball.radius) > b.y) {
                     ball.yStep = - ball.yStep;
                     b.status = false;
-                    if(b.status == false){
-                    bricks.destroyBrick(b.x,b.y,b.status);
-                    score++ ;
-                    }
+                    score++;
+                    console.log(score);
+                    scoreBoard.value=score;
                 }
             }
         }
@@ -177,21 +224,24 @@ function update() {
     movePaddle();
     ballWallCollision();
     ballPaddlleCollision();
-    collisionbrick();
+    ballBrickCollision();
 }
 function drawGame() {
     paddle.draw();
-    wall.createbrick();
     wall.drawbricks();
     ball.draw();
-
 }
 
 function tick() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawGame();
     update();
-    requestAnimationFrame(tick);
+    gameAnimation = requestAnimationFrame(tick);
+    if (!checkLifes()) {
+        gameOver();
+        return;
+    }
+    if (gameRestart) { return; }
 }
 
 //startGame();

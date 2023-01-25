@@ -7,7 +7,7 @@ class Paddle {
         this.height = height;
         this.x = Canvas.canvas.width / 2 - this.width / 2
         this.y = Canvas.canvas.height - this.height - this.margin_bottom;
-        this.dx = 20;
+        this.dx = 12;
     }
     draw() {
         Canvas.ctx.fillStyle = "#ffffff";

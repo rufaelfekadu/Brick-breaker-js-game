@@ -1,38 +1,24 @@
 import * as Canvas from '../index.js'
-
-
-class Brick{
-  
-    constructor(width,height)
+class Brick
+{
+    constructor(width,height,x,y,status)
     {
+        this.x=x;
+        this.y=y;
         this.width=width;
         this.height=height;
         this.fillColor = "#2e3548";
         this.strokeColor="#fff";
-        this.margintop=50;
-        this.offsetleft=60;
-        this.offsettop=30;
+        this.status = status;
     }
 
-
-createBrick(x, y , status){
-
-                Canvas.ctx.fillStyle=this.fillColor;
-                Canvas.ctx.fillRect(x ,y ,this.width , this.height );
-                Canvas.ctx.strockStyle = this.strokeColor;
-                Canvas.ctx.strokeRect(x , y ,this.width , this.height);
-                return {x:x , y: y ,width:this.width , height:this.height, status:status};
-            }
-
-
-        destroyBrick(x, y , status){
-
-                Canvas.ctx.fillStyle=this.fillColor="#FFFFFF7F";
-                Canvas.ctx.fillRect(x ,y ,this.width , this.height );
-                Canvas.ctx.strockStyle = this.strokeColor="#FFFFFF7F";
-                Canvas.ctx.strokeRect(x , y ,this.width , this.height);
-                return {x:x , y: y ,width:this.width , height:this.height, status:status};
-            }
-        }
+    DrawBrick()
+    {
+        Canvas.ctx.fillStyle=this.fillColor;
+        Canvas.ctx.fillRect(this.x ,this.y ,this.width , this.height );
+        Canvas.ctx.strockStyle = this.strokeColor;
+        Canvas.ctx.strokeRect(this.x , this.y ,this.width , this.height);
+    }
+}
 
 export default Brick;

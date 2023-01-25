@@ -46,15 +46,18 @@ body {
 #welcomeScreen button {
   cursor: pointer;
   background-color: transparent;
-  color: #a1055b;
+  color: #d63d91;
   font-size: 5rem;
   font-family: moon;
   letter-spacing: 1.5rem;
   margin-left: 2.5rem;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #d63d91, 0 0 0.5em #d63d91,
+    0 0 0.1em #d63d91, 0 10px 3px #000;
+    
 }
 
 #welcomeScreen button:hover {
-  color: #d63d91;
+  color: #ff4444;
 }
 
 main {
@@ -91,27 +94,19 @@ div {
   justify-content: center;
 }
 aside {
-  /* border: red 2px solid; */
-  color: #ebc026;
+  display: flex;
   width: 219px;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
+  flex-direction: column;
+  padding: 18px;
+}
+aside * {
+  font-family: "Exo 2";
 }
 #game-canvas {
   background: rgba(0, 0, 0, 0.9);
-  border: #fc49ab 2px solid;
+  border: #fc49ab 3px solid;
 }
-
-/* header {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 5px;
-  flex: 1;
-} */
-/* .gameTitle {
-  font-family: moon;
-  font-size: 6.3vw;
-  margin-left: 1.5vw;
-  animation: gameTitle 1.5s 2s ease infinite;
-} */
 
 @keyframes blink {
   78% {
@@ -145,6 +140,88 @@ aside {
     text-shadow: inherit;
   }
 }
+:root {
+  --clr-neon: #d875ff;
+  --clr-bg: #a03b87;
+}
+
+.neon-button {
+  font-size: 2rem;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--clr-neon);
+  border: var(--clr-neon) 5px solid;
+  padding: 10px 5px;
+  border-radius: 0.25em;
+  background-color: transparent;
+  text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+
+  box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
+
+  position: relative;
+}
+
+.neon-button:hover {
+  color: var(--clr-bg);
+  text-shadow: none;
+}
+.btn_active {
+  color: var(--clr-bg);
+  text-shadow: none;
+}
+.neon-button:hover::before,
+.neon-button:focus::before {
+  opacity: 1;
+}
+.neon-button:hover::after,
+.neon-button:focus::after {
+  opacity: 1;
+}
+
+.lives {
+  font-size: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+#leftAside > button,
+#leftAside > .lives {
+  margin: 2rem 0rem;
+}
+.lives h2 {
+  color: #fcb005;
+}
+#hearts .life {
+  font-size: 2.5rem;
+  color: #fe5d02;
+  margin-left: 10px;
+}
+#rightAside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#rightAside * {
+  margin: 0rem 0rem 4rem 0rem;
+}
+#score_label {
+  font-size: 3rem;
+  color: #fcb005;
+  font-weight: 900;
+}
+#score {
+  font-size: 45px;
+  width: 11rem;
+  height: 6rem;
+  font-weight: 900;
+  text-align: center;
+  background: transparent;
+  border: #c907c8 5px solid;
+  box-shadow: inset 0 0 0.5em 0 #c907c8, 0 0 0.5em 0 #c907c8;
+  color: #c907c8;
+}
 
 /* @keyframes gameTitle {
   0%,
@@ -162,4 +239,4 @@ aside {
       -0.4vw 0vw 0.2vw #d4120b, 0.2vw 0vw 0.5vw #d4120b;
     color: #ebc026;
   }
-} */
+} */ ;
