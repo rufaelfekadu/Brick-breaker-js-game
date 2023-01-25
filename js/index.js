@@ -194,15 +194,17 @@ function ballBrickCollision() {
     for (let r = 0; r < wall.row; r++) {
         for (let c = 0; c < wall.column; c++) {
             var b = wall.bricks[r][c];
-            if (b.status) {
+            if (b.brick_strength > 0) {
                 if (
-                    (ball.x - ball.radius) < (b.x + b.width) &&
-                    (ball.x + ball.radius) > b.x &&
-                    (ball.y - ball.radius) < (b.y + b.height) &&
-                    (ball.y + ball.radius) > b.y) {
+                    Math.floor(ball.x - ball.radius) < (b.x + b.width ) &&
+                    Math.floor(ball.x + ball.radius) > b.x &&
+                    Math.floor(ball.y - ball.radius) < (b.y + b.height) &&
+                    Math.floor(ball.y + ball.radius) > b.y ) {
                     ball.yStep = - ball.yStep;
-                    b.status = false;
-                    score++;
+                    if (b.brick_strength === 2 || b.brick_strength === 1){
+                        b.brick_strength--;
+                        score+=10;
+                    }
                     scoreBoard.value=score;
                 }
             }

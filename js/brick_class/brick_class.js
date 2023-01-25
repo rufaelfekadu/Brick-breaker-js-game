@@ -1,7 +1,7 @@
 import * as Canvas from '../index.js'
 class Brick
 {
-    constructor(width,height,x,y,status)
+    constructor(width,height,x,y,brick_strength)
     {
         this.x=x;
         this.y=y;
@@ -9,7 +9,7 @@ class Brick
         this.height=height;
         this.fillColor = "#2e3548";
         this.strokeColor="#fff";
-        this.status = status;
+        this.brick_strength = brick_strength;
     }
 
     DrawBrick()

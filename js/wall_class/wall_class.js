@@ -18,7 +18,8 @@ class Wall {
       for (let c = 0; c < this.column; c++) {
        let x =  c * (this.brickWidth + this.offsetLeft) + this.offsetLeft;
        let y = r * (this.brickheight + this.offsetTop) + this.offsetTop + this.marginTop;
-        let brick = new Brick(this.brickWidth,this.brickheight ,x,y,true);
+        let brick_strength = Math.floor(Math.random() * 3 ) + 1; 
+        let brick = new Brick(this.brickWidth,this.brickheight ,x,y,brick_strength);
         this.bricks[r][c] = brick;
       }
     }
@@ -27,12 +28,8 @@ class Wall {
   drawbricks() {
     for (let r = 0; r < this.row; r++) {
       for (let c = 0; c < this.column; c++) {
-        if (this.bricks[r][c].status) {
-          let x =  c * (this.brickWidth + this.offsetLeft) + this.offsetLeft;
-          let y = r * (this.brickheight + this.offsetTop) + this.offsetTop + this.marginTop;
-          let brick = new Brick(this.brickWidth,this.brickheight ,x,y,true);
-          this.bricks[r][c] = brick;
-          brick.DrawBrick();
+        if (this.bricks[r][c].brick_strength > 0 ) {
+          this.bricks[r][c].DrawBrick();
         }
       }
     }
