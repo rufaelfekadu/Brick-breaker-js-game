@@ -203,7 +203,6 @@ function ballBrickCollision() {
                     ball.yStep = - ball.yStep;
                     b.status = false;
                     score++;
-                    console.log(score);
                     scoreBoard.value=score;
                 }
             }
@@ -241,7 +240,11 @@ function tick() {
         gameOver();
         return;
     }
-    if (gameRestart) { return; }
+    if (gameRestart)
+     { 
+        score=0;
+        return;
+     }
 }
 
 //startGame();
