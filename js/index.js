@@ -25,7 +25,7 @@ export const ball = new Ball();
 const wall = new Wall(6, 8, 75, 25);
 const bricks = new Brick(75,25);
 // console.log(bricks);
-// console.log(wall);
+
 
 
 //GameLogic Variables
@@ -156,7 +156,7 @@ function collisionbrick() {
                     b.status = false;
                     if(b.status == false){
                     bricks.destroyBrick(b.x,b.y,b.status);
-                    score++ ;
+                    score++;
                     }
                 }
             }
@@ -184,7 +184,6 @@ function drawGame() {
     wall.createbrick();
     wall.drawbricks();
     ball.draw();
-
 }
 
 function tick() {
