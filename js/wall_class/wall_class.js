@@ -1,13 +1,13 @@
 import Brick from '../brick_class/brick_class.js'
-
+import { ctx } from '../index.js'
 class Wall {
   constructor(row, column) {
     this.row = row;
     this.column = column;
     this.marginTop=50;
-    this.offsetLeft=60;
-    this.offsetTop=30;
-    this.brickWidth = 75;
+    this.offsetLeft=10;
+    this.offsetTop=5;
+    this.brickWidth = 80;
     this.brickheight = 25;
     this.bricks = [];
   }
@@ -29,7 +29,27 @@ class Wall {
     for (let r = 0; r < this.row; r++) {
       for (let c = 0; c < this.column; c++) {
         if (this.bricks[r][c].brick_strength > 0 ) {
-          this.bricks[r][c].DrawBrick();
+          let brick = this.bricks[r][c];
+          switch ( brick.brick_strength) {
+            case 1:
+                ctx.fillStyle="blue";
+                ctx.fillRect( brick.x , brick.y , brick.width ,  brick.height );
+                ctx.strockStyle = "yellow";
+                ctx.strokeRect( brick.x ,  brick.y , brick.width ,  brick.height);
+              break;
+            case 2:
+                ctx.fillStyle="red";
+                ctx.fillRect( brick.x , brick.y , brick.width ,  brick.height );
+                ctx.strockStyle = "yellow";
+                ctx.strokeRect( brick.x ,  brick.y , brick.width ,  brick.height);
+              break;
+            case 3:
+              ctx.fillStyle="black";
+              ctx.fillRect( brick.x , brick.y , brick.width ,  brick.height );
+              ctx.strockStyle = "yellow";
+              ctx.strokeRect( brick.x ,  brick.y , brick.width ,  brick.height);
+              break;
+          }
         }
       }
     }

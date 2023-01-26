@@ -30,7 +30,7 @@ start_btn.addEventListener("click", startGame);
 
 export const paddle = new Paddle(150, 20);
 export const ball = new Ball();
-const wall = new Wall(6, 8, 75, 25);
+const wall = new Wall(8,11, 75, 25);
 
 //GameLogic Variables
 let life;
@@ -207,7 +207,7 @@ function ballBrickCollision() {
                     Math.floor(ball.y - ball.radius) < (b.y + b.height) &&
                     Math.floor(ball.y + ball.radius) > b.y) {
                     ball.yStep = - ball.yStep;
-                    if (b.brick_strength === 2 || b.brick_strength === 1) {
+                    if (b.brick_strength === 2 || b.brick_strength === 1 || b.brick_strength === 3) {
                         b.brick_strength--;
                         score += 10;
                     }
