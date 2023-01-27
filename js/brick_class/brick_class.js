@@ -10,6 +10,9 @@ class Brick
         this.fillColor = "#2e3548";
         this.strokeColor="#fff";
         this.brick_strength = brick_strength;
+        this.image3 = document.getElementById("img_brick3");
+        this.image2 = document.getElementById("img_brick2");
+        this.image1 = document.getElementById("img_brick");
     }
 
     DrawBrick()

@@ -32,22 +32,31 @@ class Wall {
           let brick = this.bricks[r][c];
           switch ( brick.brick_strength) {
             case 1:
-                ctx.fillStyle="blue";
-                ctx.fillRect( brick.x , brick.y , brick.width ,  brick.height );
-                ctx.strockStyle = "yellow";
-                ctx.strokeRect( brick.x ,  brick.y , brick.width ,  brick.height);
+              ctx.drawImage(
+                brick.image3,
+                brick.x,
+                brick.y,
+                brick.width,
+                brick.height
+              );
               break;
             case 2:
-                ctx.fillStyle="red";
-                ctx.fillRect( brick.x , brick.y , brick.width ,  brick.height );
-                ctx.strockStyle = "yellow";
-                ctx.strokeRect( brick.x ,  brick.y , brick.width ,  brick.height);
+              ctx.drawImage(
+                brick.image1,
+                brick.x,
+                brick.y,
+                brick.width,
+                brick.height
+              );
               break;
             case 3:
-              ctx.fillStyle="black";
-              ctx.fillRect( brick.x , brick.y , brick.width ,  brick.height );
-              ctx.strockStyle = "yellow";
-              ctx.strokeRect( brick.x ,  brick.y , brick.width ,  brick.height);
+              ctx.drawImage(
+                brick.image2,
+                brick.x,
+                brick.y,
+                brick.width,
+                brick.height
+              );
               break;
           }
         }
