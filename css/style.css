@@ -228,6 +228,25 @@ aside * {
   color: #5fe8ff;
 }
 
+#level_label{
+  font-size: 3rem;
+  color: #fcb005;
+  font-weight: 900;
+}
+
+#level_img {
+  font-size: 45px;
+  width: 11rem;
+  height: 6rem;
+  font-weight: 900;
+  text-align: center;
+  background: transparent !important;
+  border: #c907c8 5px solid;
+  box-shadow: inset 0 0 0.5em 0 #c907c8, 0 0 0.5em 0 #c907c8;
+  color: #5fe8ff;
+}
+
+
 /* @keyframes gameTitle {
   0%,
   100% {
@@ -244,4 +263,4 @@ aside * {
       -0.4vw 0vw 0.2vw #d4120b, 0.2vw 0vw 0.5vw #d4120b;
     color: #ebc026;
   }
-} */ ;
+} */ 

@@ -15,7 +15,9 @@ const scoreBoard = document.getElementById("score");
 const life1 = document.getElementById("lifeOne");
 const life2 = document.getElementById("lifeTwo");
 const life3 = document.getElementById("lifeThree");
-
+const levelImg =document.getElementById("level_img");
+const nextButton=document.getElementById("level_ended");
+const nextDiv=document.getElementById("next");
 const brokenHeartIcon = "fa-heart-crack";
 const heartIcon = "fa-heart";
 let leftArrow = false;
@@ -27,17 +29,19 @@ export let gameAnimation;
 
 //Event Listeners
 start_btn.addEventListener("click", startGame);
-
+let wall_column = 1;
+let wall_row = 1;
 export const paddle = new Paddle(150, 20);
 export const ball = new Ball();
-const wall = new Wall(8,11, 75, 25);
-
+let wall = new Wall(wall_column ,wall_row );
+let totalNumberOfBrick =wall_column *wall_row;
 //GameLogic Variables
 let life;
 let isStarted = false;
 let gameRestart = false;
 let score = 0;
-
+const maxLevel=3;
+let level=1;
 
 function stopAnimation() {
 
@@ -49,16 +53,21 @@ function stopAnimation() {
 function startGame() {
     wall.createbrick();
     welcomeScreen.style.display = 'none';
-
+    nextDiv.style.display='none';
     ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
     life = 3;
     start_btn.innerHTML = "START";
     ball.isMoving = false;
     score = 0;
+    level=1;
     scoreBoard.value = score;
+    levelImg.value=level;
     loadEvents();
     tick();
     gameRestart = false;
+    // isLevelDone=false;
+    // console.log(isLevelDone);
+
 
 }
 // function restart() {
@@ -196,27 +205,52 @@ function ballPaddlleCollision() {
     }
 }
 
+var counter=0;
+
 function ballBrickCollision() {
     for (let r = 0; r < wall.row; r++) {
         for (let c = 0; c < wall.column; c++) {
             var b = wall.bricks[r][c];
+            // console.log(wall.bricks[r][c]);
+            // console.log(r);
+            // console.log(c);
             if (b.brick_strength > 0) {
                 if (
                     Math.floor(ball.x - ball.radius) < (b.x + b.width) &&
                     Math.floor(ball.x + ball.radius) > b.x &&
                     Math.floor(ball.y - ball.radius) < (b.y + b.height) &&
                     Math.floor(ball.y + ball.radius) > b.y) {
-                    ball.yStep = - ball.yStep;
-                    if (b.brick_strength === 2 || b.brick_strength === 1 || b.brick_strength === 3) {
+                    ball.yStep = -ball.yStep;
+                    if (b.brick_strength === 2 || b.brick_strength === 3) {
                         b.brick_strength--;
-                        score += 10;
+                        score ++;
+                    } else if(b.brick_strength === 1 ){
+                        b.brick_strength--;
+                        totalNumberOfBrick--;
+                        score ++;
                     }
                     scoreBoard.value = score;
-                }
             }
+                }
+
+
+            } 
         }
     }
 
+
+
+function nLevel(){
+        level++;
+        if(level==2){
+            wall_column = 2;
+            wall_row = 2;
+            totalNumberOfBrick=wall_column* wall_row;
+            wall = new Wall(wall_row,wall_column);
+            wall.createbrick();
+            ball.speed+=0.5;
+            drawGame();
+        }
 }
 
 function checkLifes() {
@@ -268,13 +302,57 @@ function checkLifes() {
         return true;
 }
 
+
+// let isLevelDone = true;
+
+// function levelUp(){
+//     for (let r = 0; r < wall.row; r++) {
+//         for (let c = 0; c < wall.column; c++) {
+//             var b = wall.bricks[r][c];
+//             //  counter++;
+//             // isLevelDone=isLevelDone && b.brick_strength==0;
+
+//             if(b.length==0){
+//                 nextDiv.style.display='block';
+//                 nextButton.addEventListener('click',function(){
+//                     level=level+1;
+//                     console.log(level);
+//                     // if(level==2){
+//                         wall.drawbricks();
+//                         ball.speed+=0.5;
+//                         ball.reset();
+//                         score=0;
+//                     // }
+//                 })
+//             }
+//         }
+   
+
+//         }
+//     }
+
+    // console.log(isLevelDone);
+   
+        // if(level>=maxLevel){
+    //     gameOver();
+    // } 
+//       }
+// }
+
 function update() {
     movePaddle();
-    ballWallCollision();
+    ballWallCollision(); 
     ballPaddlleCollision();
     ballBrickCollision();
 }
+
+   
+
+
 function drawGame() {
+    if(totalNumberOfBrick===0){
+        nLevel();
+    }
     paddle.draw();
     wall.drawbricks();
     ball.draw();
@@ -293,6 +371,10 @@ function tick() {
         score = 0;
         return;
     }
+    // if(isLevelDone){
+    //     levelUp();
+    // }
+
 }
 
 //startGame();
