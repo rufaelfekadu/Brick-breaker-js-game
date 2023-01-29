@@ -222,7 +222,7 @@ function ballBrickCollision() {
                         totalNumberOfBrick--;
                         if(totalNumberOfBrick === 0){
                             current_level++;
-                            nLevel();
+                            nextLevel();
                         }
                         score ++;
                     }
@@ -232,19 +232,25 @@ function ballBrickCollision() {
             } 
         }
 }
-function nLevel(){
+function nextLevel(){
     switch(current_level){
         case 2:
+            levelImg.value=current_level;
             totalNumberOfBrick = 60;
             wall.createbrick(2);
             ball.speed+=1;
             drawGame();
+            ball.reset();
+            moveBallOnPaddle();
             break;
         case 3 :
+            levelImg.value=current_level;
             totalNumberOfBrick = 56;
             wall.createbrick(3);
             ball.speed+=2;
             drawGame();
+            ball.reset();
+            moveBallOnPaddle();
             break
             
     }
