@@ -19,6 +19,9 @@ body {
 
   overflow: hidden;
 }
+#img_brick , #img_brick2 , #img_brick3{
+  display: none;
+}
 #welcomeScreen {
   z-index: 5;
   width: 100%;
