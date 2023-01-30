@@ -17,9 +17,13 @@
 </head>
 
 <body>
-    <img id="img_brick" src="./images/brickNoOne.png" />
-    <img id="img_brick2" src="./images/brickNoTwo.png" />
-    <img id="img_brick3" src="./images/brickNoThree.png" />
+    <img id="img_brick" class="hideImg" src="./images/brickNoOne.png" />
+    <img id="img_brick2" class="hideImg" src="./images/brickNoTwo.png" />
+    <img id="img_brick3" class="hideImg" src="./images/brickNoThree.png" />
+
+
+    <img id="heartSolid" class="hideImg" src="./images/heart-solid.png" />
+    <img id="expandArrows" class="hideImg" src="./images/left-right-solid.svg" />
     <div id="welcomeScreen">
         <div>
             <button class="font-effect-neon" type="button" id="startGame">START</button>"
@@ -49,7 +53,7 @@
 
             <aside id="rightAside">
 
-                
+
                 <label for="level_img" id="level_label">LEVEL</label>
                 <input class="neon-button" type="text" id="level_img" disabled>
 

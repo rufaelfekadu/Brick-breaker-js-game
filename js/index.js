@@ -2,6 +2,7 @@ import Paddle from './paddle_class/paddle_class.js';
 import Ball from './ball_class/ball_class.js';
 import Brick from './brick_class/brick_class.js';
 import Wall from './wall_class/wall_class.js';
+import PowerUp from './powerup_class/powerup_class.js';
 import * as level_wall from './wall_class/wall_class.js';
 
 //HTML elements
@@ -16,9 +17,9 @@ const scoreBoard = document.getElementById("score");
 const life1 = document.getElementById("lifeOne");
 const life2 = document.getElementById("lifeTwo");
 const life3 = document.getElementById("lifeThree");
-const levelImg =document.getElementById("level_img");
-const nextButton=document.getElementById("level_ended");
-const nextDiv=document.getElementById("next");
+const levelImg = document.getElementById("level_img");
+const nextButton = document.getElementById("level_ended");
+const nextDiv = document.getElementById("next");
 const brokenHeartIcon = "fa-heart-crack";
 const heartIcon = "fa-heart";
 let leftArrow = false;
@@ -30,20 +31,24 @@ export let gameAnimation;
 
 //Event Listeners
 start_btn.addEventListener("click", startGame);
+
+//Game Objects
 let wall_column = 1;
 let wall_row = 1;
+
 export const paddle = new Paddle(150, 20);
 export const ball = new Ball();
-let wall = new Wall(wall_column ,wall_row );
-let totalNumberOfBrick =45;
+let wall = new Wall(wall_column, wall_row);
+
 //GameLogic Variables
 let life;
 let isStarted = false;
 let gameRestart = false;
 let score = 0;
-const maxLevel=3;
-let current_level=1;
-
+const maxLevel = 3;
+let current_level = 1;
+let totalNumberOfBrick;
+let clearedBricks;
 
 
 function stopAnimation() {
@@ -53,17 +58,20 @@ function stopAnimation() {
 }
 
 function startGame() {
-    current_level=1
-    wall.createbrick(current_level);
+
+    current_level = 1;
+    clearedBricks = 0;
+    setLevel();
+    console.log("initial # of bricks", totalNumberOfBrick);
     welcomeScreen.style.display = 'none';
-    nextDiv.style.display='none';
+    nextDiv.style.display = 'none';
     ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
     life = 3;
     start_btn.innerHTML = "START";
     ball.isMoving = false;
     score = 0;
     scoreBoard.value = score;
-    levelImg.value=current_level;
+    levelImg.value = current_level;
     loadEvents();
     tick();
     gameRestart = false;
@@ -91,11 +99,10 @@ function resume() {
 }
 
 function gameOver() {
-    cancelAnimationFrame(gameAnimation);
+    stopAnimation();
     welcomeScreen.style.display = 'flex';
-    cancelAnimationFrame(ballMoveAnimation_paddle);
-    cancelAnimationFrame(ballMoveAnimation);
     start_btn.innerHTML = "PLAY AGAIN";
+    setLevel();
 
 }
 function loadEvents() {
@@ -216,43 +223,56 @@ function ballBrickCollision() {
                     ball.yStep = -ball.yStep;
                     if (b.brick_strength === 2 || b.brick_strength === 3) {
                         b.brick_strength--;
-                        score ++;
-                    } else if(b.brick_strength === 1 ){
+                        score++;
+                    } else if (b.brick_strength === 1) {
                         b.brick_strength--;
                         totalNumberOfBrick--;
-                        if(totalNumberOfBrick === 0){
+                        clearedBricks++;
+                        reward(b.x, b.y);
+
+                        if (totalNumberOfBrick === 0) {
                             current_level++;
-                            nextLevel();
+                            cancelAnimationFrame(ballMoveAnimation);
+                            setLevel();
                         }
-                        score ++;
+                        score++;
                     }
                     scoreBoard.value = score;
-            }
                 }
-            } 
+            }
         }
+    }
 }
-function nextLevel(){
-    switch(current_level){
+function setLevel() {
+    levelImg.value = current_level;
+    clearedBricks = 0;
+    switch (current_level) {
+        case 1:
+            totalNumberOfBrick = 45;
+            wall.createbrick(1);
+            paddle.dx = 12;
+            break;
         case 2:
-            levelImg.value=current_level;
+
             totalNumberOfBrick = 60;
             wall.createbrick(2);
-            ball.speed+=1;
-            drawGame();
+            ball.speed += 1;
             ball.reset();
-            moveBallOnPaddle();
+            ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
+            paddle.dx = 12;
             break;
-        case 3 :
-            levelImg.value=current_level;
+        case 3:
+
             totalNumberOfBrick = 56;
             wall.createbrick(3);
-            ball.speed+=2;
-            drawGame();
+            ball.speed += 2;
             ball.reset();
-            moveBallOnPaddle();
-            break
-            
+            ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
+            paddle.dx = 14;
+            break;
+
+
+
     }
 }
 
@@ -304,9 +324,21 @@ function checkLifes() {
         return true;
 }
 
+function reward(x, y) {
+    if (clearedBricks % 4 == 0) {
+        console.log("wow! you get a reward!");
+        const type = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
+        let power = new PowerUp(20, 20, x, y, type);
+        power.fall();
+        //let fall_animation = requestAnimationFrame(power.fall);
+
+
+    }
+}
+
 function update() {
     movePaddle();
-    ballWallCollision(); 
+    ballWallCollision();
     ballPaddlleCollision();
     ballBrickCollision();
 }
@@ -330,9 +362,6 @@ function tick() {
         score = 0;
         return;
     }
-    // if(isLevelDone){
-    //     levelUp();
-    // }
 
 }
 
