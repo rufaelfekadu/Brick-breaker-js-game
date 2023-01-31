@@ -20,13 +20,18 @@
     <img id="img_brick" class="hideImg" src="./images/brickNoOne.png" />
     <img id="img_brick2" class="hideImg" src="./images/brickNoTwo.png" />
     <img id="img_brick3" class="hideImg" src="./images/brickNoThree.png" />
-
+    <audio controls id="playerElement" class="hideImg">
+        <source src='' type='audio/wav'>
+        </source>
+    </audio>
 
     <img id="heartSolid" class="hideImg" src="./images/heart-solid.png" />
     <img id="expandArrows" class="hideImg" src="./images/left-right-solid.svg" />
     <div id="welcomeScreen">
         <div>
-            <button class="font-effect-neon" type="button" id="startGame">START</button>"
+            <p class="font-effect-neon" id="winText">YOU WON</p>
+            <p class="font-effect-neon" id="winScore">SCORE </p>
+            <button type="button" id="startGame">START</button>"
         </div>
     </div>
     <main>
@@ -46,6 +51,8 @@
                         <p class="life"><i id="lifeThree" class="fa-solid fa-heart"></i></p>
                     </div>
                 </div>
+
+                <div><i class="fa-solid fa-volume-high" id="sound"></i></div>
 
             </aside>
 

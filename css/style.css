@@ -37,7 +37,7 @@ body {
 #welcomeScreen div {
   border: #5fe8ff 0.5em solid;
   width: 32%;
-  height: 40%;
+  height: 45%;
   display: flex;
   position: fixed;
   flex-direction: column;
@@ -48,6 +48,7 @@ body {
 #welcomeScreen button {
   cursor: pointer;
   background-color: transparent;
+  border: none;
   color: #d63d91;
   font-size: 5rem;
   font-family: moon;
@@ -60,7 +61,22 @@ body {
 #welcomeScreen button:hover {
   color: #ff4444;
 }
-
+.font-effect-neon {
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #d63d91, 0 0 0.5em #d63d91,
+    0 0 0.1em #d63d91, 0 10px 3px #000;
+  background-color: transparent;
+  color: #d63d91;
+  font-family: moon;
+  letter-spacing: 1rem;
+  display: none;
+  margin: 1rem 0rem 2rem 2.5rem;
+}
+#winScore {
+  font-size: 3rem;
+}
+#winText {
+  font-size: 5rem;
+}
 main {
   display: flex;
   flex-direction: column;
@@ -146,6 +162,16 @@ aside * {
   --clr-bg: #a03b87;
 }
 
+#sound {
+  display: inline-block;
+  cursor: pointer;
+  background-color: transparent;
+  text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+  position: relative;
+  font-size: 4rem;
+  text-decoration: none;
+  color: #5fe8ff;
+}
 .neon-button {
   font-size: 2rem;
   display: inline-block;
