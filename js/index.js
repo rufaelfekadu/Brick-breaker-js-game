@@ -213,9 +213,8 @@ function ballWallCollision() {
 
 }
 function hitPaddle(power, brick) {
-    console.log(paddle.y);
-    console.log(power.y);
-    if (power.y + power.height == paddle.y) {
+
+    if (power.y + power.height == paddle.y && power.x > paddle.x) {
         switch (power.type) {
             case 0:
                 if (life < 3) {
