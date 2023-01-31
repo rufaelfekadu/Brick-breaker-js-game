@@ -46,7 +46,7 @@ export const paddle = new Paddle(150, 20);
 export const ball = new Ball();
 let wall = new Wall(wall_column, wall_row);
 
-//GameLogic Variablesvel
+//GameLogic Variables
 let life = 0;
 let gameRestart = false;
 let score = 0;
@@ -54,20 +54,9 @@ let current_level = 1;
 let totalNumberOfBrick;
 let clearedBricks;
 let power;
-// let newPowerUp = {
-//     create: false,
-//     x: 0,
-//     y: 0,
-//     obj: undefined
-// };
 let newPowerUp = false;
 
-function resetPowerUp() {
-    newPowerUp.create = true;
-    newPowerUp.x = 0;
-    newPowerUp.y = 0;
-    newPowerUp.obj = undefined;
-}
+
 
 function stopAnimation() {
     cancelAnimationFrame(gameAnimation);
@@ -233,6 +222,7 @@ function hitPaddle(power, brick) {
     console.log(paddle.y);
     console.log(power.y);
     if (power.y + power.height == paddle.y) {
+        play_powerUp();
         switch (power.type) {
             case 0:
                 if (life < 3) {
