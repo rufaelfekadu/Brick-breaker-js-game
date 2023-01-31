@@ -1,5 +1,7 @@
-import Brick from '../brick_class/brick_class.js'
-import { ctx } from '../index.js'
+import Brick from '../brick_class/brick_class.js';
+import { ctx } from '../index.js';
+import PowerUp from '../powerup_class/powerup_class.js'
+
 class Wall {
   constructor(row, column) {
     this.row = row;
@@ -32,14 +34,20 @@ class Wall {
       for (let c = 0; c < this.column; c++) {
        let x =  c * (this.brickWidth + this.offsetLeft) + this.offsetLeft;
        let y = r * (this.brickheight + this.offsetTop) + this.offsetTop + this.marginTop;
+       let type = Math.floor(Math.random() * (1 - 0 + 3)) + 0;
+        let hasPower = false;
         
-        let brick = new Brick(this.brickWidth,this.brickheight ,x,y,0);
+        let power = new PowerUp(20, 20, x+this.brickWidth/2.5, y+this.brickheight/6, type );
+        let brick = new Brick(this.brickWidth,this.brickheight ,x,y,0,power, hasPower , false);
         if(level == 1 ){
           brick.brick_strength = level_one[r][c];
         }else if (level === 2){
           brick.brick_strength = level_two[r][c];
         } else{
           brick.brick_strength = level_three[r][c];
+        }
+        if((type === 1 || type === 0) && brick.brick_strength != 0 ){
+          brick.hasPower = true;
         }
         this.bricks[r][c] = brick;
       }
@@ -84,7 +92,24 @@ class Wall {
       }
     }
   }
-  
+  drawPowers() {
+    for (let r = 0; r < this.row; r++) {
+      for (let c = 0; c < this.column; c++) {
+          let brick = this.bricks[r][c];
+          if (this.bricks[r][c].brick_strength === 1  || brick.hasPower ){
+            switch ( brick.power.type) {
+              case 0:
+                brick.power.draw_LifePowerUp();
+                break;
+              case 1:
+                brick.power.draw_PaddlePowerUp();
+                break;
+            }
+          }
+          
+        }
+      }
+    }
 }
 
 const level_one = [

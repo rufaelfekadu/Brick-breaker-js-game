@@ -1,7 +1,8 @@
-import * as Canvas from '../index.js'
+import * as Canvas from '../index.js';
+
 class Brick
 {
-    constructor(width,height,x,y,brick_strength)
+    constructor(width,height,x,y,brick_strength , power , hasPower , powerActive)
     {
         this.x=x;
         this.y=y;
@@ -10,6 +11,9 @@ class Brick
         this.fillColor = "#2e3548";
         this.strokeColor="#fff";
         this.brick_strength = brick_strength;
+        this.power = power;
+        this.powerActive=powerActive;
+        this.hasPower = hasPower;
         this.image3 = document.getElementById("img_brick3");
         this.image2 = document.getElementById("img_brick2");
         this.image1 = document.getElementById("img_brick");
