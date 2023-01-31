@@ -9,7 +9,7 @@ const gameWin_sound = '../audio/mixkit-final-level-bonus-2061.wav';
 const playerObject = document.getElementById('playerElement');
 const volumeIcon = document.getElementById('sound');
 
-const muted = "fa-volume-xmark";
+let muted = "fa-volume-xmark";
 const volume = "fa-volume-high";
 let mute = false;
 

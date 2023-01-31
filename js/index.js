@@ -1,9 +1,6 @@
 import Paddle from './paddle_class/paddle_class.js';
 import Ball from './ball_class/ball_class.js';
-import Brick from './brick_class/brick_class.js';
 import Wall from './wall_class/wall_class.js';
-import PowerUp from './powerup_class/powerup_class.js';
-
 import { play_gameOver, play_brickDestroy, play_lifeLost, play_powerUp, play_levelUp, play_ballCollision, play_gameWin } from './audio_control.js';
 
 //HTML elements
@@ -138,10 +135,7 @@ function gameWin() {
 
 }
 function loadEvents() {
-
     pause_btn.addEventListener('click', pause);
-
-
     canvas.addEventListener("mousemove", function (event) {
         if (event.offsetX <= paddle.width / 2) {
             paddle.x = 0
@@ -230,9 +224,7 @@ function ballWallCollision() {
 
 }
 function hitPaddle(power, brick) {
-    console.log(paddle.y);
-    console.log(power.y);
-    if (power.y + power.height == paddle.y) {
+    if (power.y + power.height == paddle.y && power.x >= paddle.x) {
         switch (power.type) {
             case 0:
                 if (life < 3) {
@@ -278,15 +270,13 @@ function ballBrickCollision() {
                     if (b.brick_strength === 2 || b.brick_strength === 3) {
                         play_ballCollision();
                         b.brick_strength--;
-                        score++;
+                        score+=5;
                     } else if (b.brick_strength === 1) {
                         play_brickDestroy();
                         b.brick_strength--;
                         totalNumberOfBrick--;
-
                         b.powerActive = true;
                         clearedBricks++;
-                        // reward(b.x, b.y);
                         newPowerUp = true;
 
                         if (totalNumberOfBrick === 0) {
@@ -299,7 +289,7 @@ function ballBrickCollision() {
                                 setLevel();
                             }
                         }
-                        score++;
+                        score+=10;
                     }
 
                     scoreBoard.value = score;
@@ -397,18 +387,6 @@ function checkLifes() {
         return true;
 }
 
-function reward(x, y) {
-    //clearedBricks % 4 == 0)
-    if (clearedBricks % 4 == 0) {
-        console.log("wow! you get a reward! at ", clearedBricks);
-        const type = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
-        power = new PowerUp(20, 20, x, y, type);
-        power.fall();
-        //let fall_animation = requestAnimationFrame(power.fall);
-
-
-    }
-}
 
 function update() {
     movePaddle();

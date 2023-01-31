@@ -34,7 +34,7 @@ class Wall {
       for (let c = 0; c < this.column; c++) {
        let x =  c * (this.brickWidth + this.offsetLeft) + this.offsetLeft;
        let y = r * (this.brickheight + this.offsetTop) + this.offsetTop + this.marginTop;
-       let type = Math.floor(Math.random() * (1 - 0 + 3)) + 0;
+       let type = Math.floor(Math.random() * (1 - 0 + 7)) + 0;
         let hasPower = false;
         
         let power = new PowerUp(20, 20, x+this.brickWidth/2.5, y+this.brickheight/6, type );
