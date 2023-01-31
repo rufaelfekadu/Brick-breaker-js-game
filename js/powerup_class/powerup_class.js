@@ -18,7 +18,8 @@ class PowerUp {
         this.fall_animation = undefined;
         this.draw_animation = undefined;
         this.heart = document.getElementById("heartSolid");
-        
+        this.expand = document.getElementById("expandArrows");
+
         if (type == LIFE || type == PADDLE)
             this.type = type;
         else {
@@ -37,7 +38,7 @@ class PowerUp {
     }
     draw_PaddlePowerUp() {
         Main.ctx.drawImage(
-            this.heart,
+            this.expand,
             this.x,
             this.y,
             this.width,
@@ -46,8 +47,8 @@ class PowerUp {
     }
 
     fall() {
-        if(this.y < Main.canvas.height){
-            this.y += 1;   
+        if (this.y < Main.canvas.height) {
+            this.y += 1;
         }
     }
 

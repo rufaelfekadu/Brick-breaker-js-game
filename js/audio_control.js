@@ -46,15 +46,16 @@ export function play_gameWin() {
 function muteAudio() {
     if (!mute) {
         playerObject.muted = true;
-        volumeIcon.classList.remove("volume");
-        volumeIcon.classList.add("muted");
-        muted = true;
+        volumeIcon.classList.remove(volume);
+        volumeIcon.classList.add(muted);
+        mute = true;
     }
     else {
         playerObject.muted = false;
-        volumeIcon.classList.add("volume");
-        volumeIcon.classList.remove("muted");
-        muted = false;
+        volumeIcon.classList.remove(muted);
+        volumeIcon.classList.add(volume);
+        mute = false;
+
 
     }
 
