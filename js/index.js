@@ -36,6 +36,7 @@ start_btn.addEventListener("click", startGame);
 let wall_column = 1;
 let wall_row = 1;
 
+
 export const paddle = new Paddle(150, 20);
 export const ball = new Ball();
 let wall = new Wall(wall_column, wall_row);
@@ -49,7 +50,21 @@ const maxLevel = 3;
 let current_level = 1;
 let totalNumberOfBrick;
 let clearedBricks;
+let power;
+// let newPowerUp = {
+//     create: false,
+//     x: 0,
+//     y: 0,
+//     obj: undefined
+// };
+let newPowerUp = false;
 
+function resetPowerUp() {
+    newPowerUp.create = true;
+    newPowerUp.x = 0;
+    newPowerUp.y = 0;
+    newPowerUp.obj = undefined;
+}
 
 function stopAnimation() {
     cancelAnimationFrame(gameAnimation);
@@ -228,7 +243,8 @@ function ballBrickCollision() {
                         b.brick_strength--;
                         totalNumberOfBrick--;
                         clearedBricks++;
-                        reward(b.x, b.y);
+                        // reward(b.x, b.y);
+                        newPowerUp = true;
 
                         if (totalNumberOfBrick === 0) {
                             current_level++;
@@ -325,10 +341,11 @@ function checkLifes() {
 }
 
 function reward(x, y) {
+    //clearedBricks % 4 == 0)
     if (clearedBricks % 4 == 0) {
-        console.log("wow! you get a reward!");
+        console.log("wow! you get a reward! at ", clearedBricks);
         const type = Math.floor(Math.random() * (1 - 0 + 1)) + 0;
-        let power = new PowerUp(20, 20, x, y, type);
+        power = new PowerUp(20, 20, x, y, type);
         power.fall();
         //let fall_animation = requestAnimationFrame(power.fall);
 
@@ -341,12 +358,18 @@ function update() {
     ballWallCollision();
     ballPaddlleCollision();
     ballBrickCollision();
+
+
 }
 
 function drawGame() {
     paddle.draw();
     wall.drawbricks();
     ball.draw();
+    if (newPowerUp) {
+        reward(30, 30);
+        newPowerUp = false;
+    }
 }
 
 function tick() {

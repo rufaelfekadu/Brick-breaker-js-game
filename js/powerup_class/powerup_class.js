@@ -8,8 +8,6 @@ const PADDLE = 0;
 class PowerUp {
     constructor(w, h, x, y, type, gravity) {
         this.heart = document.getElementById("heartSolid");
-        this.expand = document.getElementById("expandArrows");
-        this.image1 = document.getElementById("img_brick");
         this.x = x;
         this.y = y;
         this.width = w;
@@ -29,20 +27,23 @@ class PowerUp {
     }
 
     draw_LifePowerUp() {
+        console.log("draw_LifePowerUp");
+
+        console.log("life-y", this.y);
         Main.ctx.drawImage(
-            this.image1,
+            this.heart,
             this.x,
             this.y,
             this.width,
-            this.height)
-            ;
+            this.height
+        );
         //this.type = LIFE;
         //this.fall();
     }
     draw_PaddlePowerUp() {
-
+        console.log("paddle-y", this.y);
         Main.ctx.drawImage(
-            this.image1,
+            this.heart,
             this.x,
             this.y,
             this.width,
@@ -53,27 +54,32 @@ class PowerUp {
     }
 
     fall() {
-        console.log(this.gravitySpeed);
-        this.gravitySpeed += this.gravity;
-        this.x += this.speedX;
-        this.y += this.speedY + this.gravitySpeed;
+        console.log("fall-y", this.y);
+        if (true) {
 
-        switch (this.type) {
-            case LIFE:
+            this.gravitySpeed += this.gravity;
+            this.x += this.speedX;
+            this.y += this.speedY + this.gravitySpeed;
 
-                this.draw_LifePowerUp();
-                break;
-            case PADDLE:
 
-                this.draw_PaddlePowerUp();
-                break;
+            switch (this.type) {
+                case LIFE:
 
-            default:
-                console.log("ERROR! : draw power up type not set correctly!");
-                break;
+                    this.draw_LifePowerUp();
+                    break;
+                case PADDLE:
+
+                    this.draw_PaddlePowerUp();
+                    break;
+
+                default:
+                    console.log("ERROR! : draw power up type not set correctly!");
+                    break;
+            }
+
+            this.fall_animation = requestAnimationFrame(this.fall.bind(this));
         }
-
-        // this.fall_animation = requestAnimationFrame(this.fall);
+        else return;
 
     }
 
@@ -136,5 +142,28 @@ class PowerUp {
 //     // this.fall();
 // }
 
+// function fall() {
+//     console.log(this.gravitySpeed);
+//     this.gravitySpeed += this.gravity;
+//     this.x += this.speedX;
+//     this.y += this.speedY + this.gravitySpeed;
 
+//     switch (this.type) {
+//         case LIFE:
+
+//             this.draw_LifePowerUp();
+//             break;
+//         case PADDLE:
+
+//             this.draw_PaddlePowerUp();
+//             break;
+
+//         default:
+//             console.log("ERROR! : draw power up type not set correctly!");
+//             break;
+//     }
+
+//     // this.fall_animation = requestAnimationFrame(this.fall);
+
+// }
 export default PowerUp;
