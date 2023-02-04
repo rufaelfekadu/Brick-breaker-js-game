@@ -1,7 +1,7 @@
 import Paddle from './paddle_class/paddle_class.js';
 import Ball from './ball_class/ball_class.js';
 import Wall from './wall_class/wall_class.js';
-import { play_gameOver, play_brickDestroy, play_lifeLost, play_powerUp, play_levelUp, play_ballCollision, play_gameWin } from './audio_control.js';
+import { resetAudio, play_gameOver, play_brickDestroy, play_lifeLost, play_powerUp, play_levelUp, play_ballCollision, play_gameWin } from './audio_control.js';
 
 //HTML elements
 export const canvas = document.getElementById('game-canvas');
@@ -19,6 +19,7 @@ const levelImg = document.getElementById("level_img");
 const nextDiv = document.getElementById("next");
 const winText = document.getElementById("winText");
 const winScore = document.getElementById("winScore");
+
 const brokenHeartIcon = "fa-heart-crack";
 const heartIcon = "fa-heart";
 
@@ -61,6 +62,7 @@ function startGame() {
 
     current_level = 1;
     setLevel();
+    resetAudio();
     welcomeScreen.style.display = 'none';
     nextDiv.style.display = 'none';
     ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);

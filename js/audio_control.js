@@ -7,10 +7,12 @@ const ballCollision_sound = '../audio/mixkit-quick-jump-arcade-game-239.wav';
 const gameWin_sound = '../audio/mixkit-final-level-bonus-2061.wav';
 
 const playerObject = document.getElementById('playerElement');
-const volumeIcon = document.getElementById('sound');
+const playerObject2 = document.getElementById('playerElement2');
+const playerObject3 = document.getElementById('playerElement3');
+export const volumeIcon = document.getElementById('sound');
 
-let muted = "fa-volume-xmark";
-const volume = "fa-volume-high";
+export const muted = "fa-volume-xmark";
+export const volume = "fa-volume-high";
 let mute = false;
 
 volumeIcon.addEventListener('click', muteAudio);
@@ -20,8 +22,8 @@ export function play_gameOver() {
     playerObject.play();
 }
 export function play_brickDestroy() {
-    playerObject.src = brickDestroy_sound;
-    playerObject.play();
+    playerObject3.src = brickDestroy_sound;
+    playerObject3.play();
 }
 export function play_lifeLost() {
     playerObject.src = lifeLost_sound;
@@ -36,22 +38,34 @@ export function play_levelUp() {
     playerObject.play();
 }
 export function play_ballCollision() {
-    playerObject.src = ballCollision_sound;
-    playerObject.play();
+    playerObject2.src = ballCollision_sound;
+    playerObject2.play();
 }
 export function play_gameWin() {
     playerObject.src = gameWin_sound;
     playerObject.play();
 }
+export function resetAudio() {
+    playerObject.src = "";
+    playerObject2.src = "";
+    playerObject3.src = "";
+    volumeIcon.classList.remove(muted);
+    volumeIcon.classList.add(volume);
+    mute = false;
+}
 function muteAudio() {
     if (!mute) {
         playerObject.muted = true;
+        playerObject2.muted = true;
+        playerObject3.muted = true;
         volumeIcon.classList.remove(volume);
         volumeIcon.classList.add(muted);
         mute = true;
     }
     else {
         playerObject.muted = false;
+        playerObject2.muted = false;
+        playerObject3.muted = false;
         volumeIcon.classList.remove(muted);
         volumeIcon.classList.add(volume);
         mute = false;
