@@ -16,7 +16,6 @@ const life1 = document.getElementById("lifeOne");
 const life2 = document.getElementById("lifeTwo");
 const life3 = document.getElementById("lifeThree");
 const levelImg = document.getElementById("level_img");
-const nextButton = document.getElementById("level_ended");
 const nextDiv = document.getElementById("next");
 const winText = document.getElementById("winText");
 const winScore = document.getElementById("winScore");
@@ -49,9 +48,6 @@ let gameRestart = false;
 let score = 0;
 let current_level = 1;
 let totalNumberOfBrick;
-let clearedBricks;
-let power;
-let newPowerUp = false;
 
 
 
@@ -64,7 +60,6 @@ function stopAnimation() {
 function startGame() {
 
     current_level = 1;
-    clearedBricks = 0;
     setLevel();
     welcomeScreen.style.display = 'none';
     nextDiv.style.display = 'none';
@@ -231,7 +226,7 @@ function hitPaddle(power, brick) {
     }
 }
 
-function ballPaddlleCollision() {
+function ballPaddleCollision() {
     if ((ball.y + ball.radius) > paddle.y &&
         (ball.y + ball.radius) < paddle.y + paddle.height &&
         (ball.x + ball.radius) > paddle.x &&
@@ -268,8 +263,6 @@ function ballBrickCollision() {
                         b.brick_strength--;
                         totalNumberOfBrick--;
                         b.powerActive = true;
-                        clearedBricks++;
-                        newPowerUp = true;
 
                         if (totalNumberOfBrick === 0) {
                             current_level++;
@@ -299,7 +292,6 @@ function ballBrickCollision() {
 }
 function setLevel() {
     levelImg.value = current_level;
-    clearedBricks = 0;
     switch (current_level) {
         case 1:
             totalNumberOfBrick = 45;
@@ -331,7 +323,7 @@ function setLevel() {
     }
 }
 
-function checkLifes() {
+function checkLives() {
     switch (life) {
         case 2:
             life1.classList.add(heartIcon);
@@ -383,7 +375,7 @@ function checkLifes() {
 function update() {
     movePaddle();
     ballWallCollision();
-    ballPaddlleCollision();
+    ballPaddleCollision();
     ballBrickCollision();
 
 }
@@ -401,8 +393,8 @@ function tick() {
     drawGame();
     update();
     gameAnimation = requestAnimationFrame(tick);
-    checkLifes();
-    if (!checkLifes()) {
+    checkLives();
+    if (!checkLives()) {
         gameOver();
         return;
     }
