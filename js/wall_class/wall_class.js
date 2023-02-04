@@ -6,25 +6,25 @@ class Wall {
   constructor(row, column) {
     this.row = row;
     this.column = column;
-    this.marginTop=50;
-    this.offsetLeft=10;
-    this.offsetTop=5;
+    this.marginTop = 50;
+    this.offsetLeft = 10;
+    this.offsetTop = 5;
     this.brickWidth = 89;
-    this.brickheight = 30;
+    this.brickHeight = 30;
     this.bricks = [];
   }
-  
-  createbrick(level) {
-    switch(level){
-      case 1 :
+
+  createWall(level) {
+    switch (level) {
+      case 1:
         this.row = level_one.length;
         this.column = level_one[0].length;
         break;
-      case 2 :
+      case 2:
         this.row = level_two.length;
         this.column = level_two[0].length;
         break;
-      case 3 :
+      case 3:
         this.row = level_three.length;
         this.column = level_three[0].length;
         break;
@@ -32,21 +32,21 @@ class Wall {
     for (let r = 0; r < this.row; r++) {
       this.bricks[r] = [];
       for (let c = 0; c < this.column; c++) {
-       let x =  c * (this.brickWidth + this.offsetLeft) + this.offsetLeft;
-       let y = r * (this.brickheight + this.offsetTop) + this.offsetTop + this.marginTop;
-       let type = Math.floor(Math.random() * (1 - 0 + 10)) + 0;
+        let x = c * (this.brickWidth + this.offsetLeft) + this.offsetLeft;
+        let y = r * (this.brickHeight + this.offsetTop) + this.offsetTop + this.marginTop;
+        let type = Math.floor(Math.random() * (1 - 0 + 10)) + 0;
         let hasPower = false;
-        
-        let power = new PowerUp(20, 20, x+this.brickWidth/2.5, y+this.brickheight/6, type );
-        let brick = new Brick(this.brickWidth,this.brickheight ,x,y,0,power, hasPower , false);
-        if(level == 1 ){
+
+        let power = new PowerUp(x + this.brickWidth / 2.5, y + this.brickHeight / 6, type);
+        let brick = new Brick(this.brickWidth, this.brickHeight, x, y, 0, power, hasPower, false);
+        if (level == 1) {
           brick.brick_strength = level_one[r][c];
-        }else if (level === 2){
+        } else if (level === 2) {
           brick.brick_strength = level_two[r][c];
-        } else{
+        } else {
           brick.brick_strength = level_three[r][c];
         }
-        if((type === 1 || type === 0) && brick.brick_strength != 0 ){
+        if ((type === 1 || type === 0) && brick.brick_strength != 0) {
           brick.hasPower = true;
         }
         this.bricks[r][c] = brick;
@@ -54,12 +54,12 @@ class Wall {
     }
   }
 
-  drawbricks() {
+  drawBricks() {
     for (let r = 0; r < this.row; r++) {
       for (let c = 0; c < this.column; c++) {
-        if (this.bricks[r][c].brick_strength > 0 ) {
+        if (this.bricks[r][c].brick_strength > 0) {
           let brick = this.bricks[r][c];
-          switch ( brick.brick_strength) {
+          switch (brick.brick_strength) {
             case 1:
               ctx.drawImage(
                 brick.image3,
@@ -95,21 +95,21 @@ class Wall {
   drawPowers() {
     for (let r = 0; r < this.row; r++) {
       for (let c = 0; c < this.column; c++) {
-          let brick = this.bricks[r][c];
-          if (this.bricks[r][c].brick_strength === 1  || brick.hasPower ){
-            switch ( brick.power.type) {
-              case 0:
-                brick.power.draw_LifePowerUp();
-                break;
-              case 1:
-                brick.power.draw_PaddlePowerUp();
-                break;
-            }
+        let brick = this.bricks[r][c];
+        if (this.bricks[r][c].brick_strength === 1 || brick.hasPower) {
+          switch (brick.power.type) {
+            case 0:
+              brick.power.draw_LifePowerUp();
+              break;
+            case 1:
+              brick.power.draw_PaddlePowerUp();
+              break;
           }
-          
         }
+
       }
     }
+  }
 }
 
 const level_one = [

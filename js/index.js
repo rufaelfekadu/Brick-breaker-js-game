@@ -214,16 +214,17 @@ function ballWallCollision() {
 }
 function hitPaddle(power, brick) {
 
-    if (power.y + power.height == paddle.y && power.x > paddle.x && power.x < paddle.x + paddle.width) 
- {
+    if (power.y + power.height == paddle.y && power.x > paddle.x && power.x < paddle.x + paddle.width) {
         switch (power.type) {
             case 0:
                 if (life < 3) {
                     life++;
+                    play_powerUp();
                 }
                 break;
             case 1:
                 paddle.width += 20;
+                play_powerUp();
                 break;
         }
         brick.hasPower = false;
@@ -261,7 +262,7 @@ function ballBrickCollision() {
                     if (b.brick_strength === 2 || b.brick_strength === 3) {
                         play_ballCollision();
                         b.brick_strength--;
-                        score+=5;
+                        score += 5;
                     } else if (b.brick_strength === 1) {
                         play_brickDestroy();
                         b.brick_strength--;
@@ -280,7 +281,7 @@ function ballBrickCollision() {
                                 setLevel();
                             }
                         }
-                        score+=10;
+                        score += 10;
                     }
 
                     scoreBoard.value = score;
@@ -302,14 +303,14 @@ function setLevel() {
     switch (current_level) {
         case 1:
             totalNumberOfBrick = 45;
-            wall.createbrick(1);
+            wall.createWall(1);
             paddle.dx = 12;
             paddle.width = 150;
             break;
         case 2:
             play_levelUp();
             totalNumberOfBrick = 60;
-            wall.createbrick(2);
+            wall.createWall(2);
             ball.speed += 1;
             ball.reset();
             ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
@@ -319,7 +320,7 @@ function setLevel() {
         case 3:
             play_levelUp();
             totalNumberOfBrick = 56;
-            wall.createbrick(3);
+            wall.createWall(3);
             ball.speed += 2;
             ball.reset();
             ballMoveAnimation_paddle = requestAnimationFrame(moveBallOnPaddle);
@@ -390,7 +391,7 @@ function update() {
 function drawGame() {
     paddle.draw();
     wall.drawPowers();
-    wall.drawbricks();
+    wall.drawBricks();
     ball.draw();
 
 }
