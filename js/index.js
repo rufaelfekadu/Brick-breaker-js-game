@@ -110,8 +110,7 @@ function gameWin() {
     stopAnimation();
     welcomeScreen.style.display = 'flex';
     play_gameWin();
-    start_btn.disabled = true;
-    start_btn.style.cursor = 'default';
+    start_btn.style.cursor = 'pointer';
     start_btn.innerHTML = "PLAY AGAIN";
     start_btn.style.fontSize = "1.7rem";
     winText.style.display = 'inline-block';

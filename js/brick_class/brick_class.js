@@ -20,7 +20,7 @@ class Brick {
     DrawBrick() {
         Canvas.ctx.fillStyle = this.fillColor;
         Canvas.ctx.fillRect(this.x, this.y, this.width, this.height);
-        Canvas.ctx.strockStyle = this.strokeColor;
+        Canvas.ctx.strokeColor = this.strokeColor;
         Canvas.ctx.strokeRect(this.x, this.y, this.width, this.height);
     }
 }
