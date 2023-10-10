@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/style.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500&family=Unbounded:wght@200;300&display=swap&effect=neon"
+        rel="stylesheet">
+    <script src="https://kit.fontawesome.com/3ae4e6c2b1.js" defer crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename = 'js/index.js')}}" type="module" defer></script>
+    <title>Brick Breaker game</title>
+</head>
+
+<body>
+    <main>
+        <header>
+            <div class="logo"><b>b<span>ri</span>ck<span>br</span><span>e</span><span>a</span><span>k</span>er</b></div>
+        </header>
+
+        <div>
+            <aside id="leftAside">
+                <button class="neon-button" type="button" id="restart">RESTART</button>
+                <button class="neon-button" type="button" id="pause">PAUSE</button>
+                <div class="lives">
+                    <h2>LIFE</h2>
+                    <div id="hearts">
+                        <p class="life"><i id="lifeOne" class="fa-solid fa-heart"></i></p>
+                        <p class="life"><i id="lifeTwo" class="fa-solid fa-heart"></i></p>
+                        <p class="life"><i id="lifeThree" class="fa-solid fa-heart"></i></p>
+                    </div>
+                </div>
+
+                <div><i class="fa-solid fa-volume-high" id="sound"></i></div>
+
+            </aside>
+
+            <!-- <canvas id="game-canvas" width="1000" height="607"></canvas> -->
+            <div id="login-card">
+                <form id="registration-form" method="POST" action="{{ url_for('login') }}">
+                    {{ form.hidden_tag() }}
+                    <div class="error-message"> <!-- Display error messages here -->
+                        {% for error in form.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                    <div class="success-message"> <!-- Display success messages here -->
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" class="input-field" required>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="input-field" required>
+                    <button type="submit"> Login</button>
+                </form>
+            </div>
+
+            <aside id="rightAside">
+
+
+                <label for="level_img" id="level_label">LEVEL</label>
+                <input class="neon-button" type="text" id="level_img" disabled>
+
+                <label for="score" id="score_label">SCORE</label>
+                <input type="text" id="score" disabled>
+            </aside>
+
+        </div>
+
+        <div id="next">
+            <button class="font-effect-neon" type="button" id="level_ended">Next Level</button>"
+
+        </div>
+    </main>
+
+</body>
+
+</html>

@@ -273,3 +273,31 @@ aside * {
   box-shadow: inset 0 0 0.5em 0 #c907c8, 0 0 0.5em 0 #c907c8;
   color: #5fe8ff;
 }
+
+#login-card {
+  background: rgba(0, 0, 0, 0.9);
+  width: 1000;
+  height: 607;
+  border: #fc49ab 3px solid;
+}
+
+#registration-form{
+  background: rgba(0, 0, 0, 0.9);
+  width: 1000;
+  height: 607;
+  border: #fc49ab 3px solid;
+}
+
+/* Error Message */
+.error-message {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Success Message */
+.success-message {
+  color: #28a745;
+  font-size: 14px;
+  margin-top: 5px;
+}

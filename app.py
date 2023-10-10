@@ -25,19 +25,27 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-
+# setup csrf protection
+from flask_wtf.csrf import CSRFProtect
+csrf = CSRFProtect(app)
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+    high_score = db.Column(db.Integer, nullable=False, default=0)
 
+class Game(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    score = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+# Define the registration and login forms (WTForms)
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=4, max=80)])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
@@ -48,6 +56,7 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
 
+# Define the routes for the app
 @app.route('/')
 def home():
     return 'Welcome to the Flask Authentication App'
@@ -66,9 +75,10 @@ def register():
             new_user = User(username=username, password=hashed_password)
             db.session.add(new_user)
             db.session.commit()
+
             flash('Registration successful!', 'success')
             return redirect(url_for('login'))
-    return render_template('registration.html', form=form)
+    return render_template('register.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -77,18 +87,57 @@ def login():
         username = form.username.data
         password = form.password.data
         user = User.query.filter_by(username=username).first()
-        if user and user.password == password:
+        if user and check_password_hash(user.password, password):
             login_user(user)
             flash('Login successful!', 'success')
-            return redirect(url_for('profile'))
+            return redirect(url_for('game'))
         else:
             flash('Login failed. Check your username and password.', 'danger')
     return render_template('login.html', form=form)
+
+@app.route('/game')
+@login_required
+def game():
+    return render_template('index.html')
 
 @app.route('/profile')
 @login_required
 def profile():
     return f'Welcome to your profile, {current_user.username}!'
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+
+from flask import Flask, request, jsonify
+
+@app.route('/update_score', methods=['POST'])
+def update_score():
+    # Extract data from the AJAX request
+    data = request.json
+    new_score = data.get('score')
+
+    # Update the user's score in the database (replace this with your actual database update code)
+    # For example, if you are using SQLAlchemy:
+    
+    user = User.query.filter_by(id=data.get('user_id')).first()
+    if user.high_score < new_score:
+        user.high_score = new_score
+        db.session.commit()
+
+    # new entry on Game table
+    game = Game(score=new_score, user_id=data.get('user_id'))
+    db.session.add(game)
+    db.session.commit()
+
+    # For demonstration purposes, assume the update was successful
+    success = True
+
+    # Return a response indicating success or failure
+    response_data = {'success': success}
+    return jsonify(response_data)
 if __name__ == '__main__':
     app.run(debug=True)

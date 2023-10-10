@@ -102,6 +102,7 @@ function gameOver() {
     stopAnimation();
     welcomeScreen.style.display = 'flex';
     play_gameOver();
+    updateScore(score);
     start_btn.innerHTML = "PLAY AGAIN";
     setLevel();
 
@@ -404,6 +405,31 @@ function tick() {
         return;
     }
 
+}
+function updateScore(newScore) {
+    // Prepare the data to send in the AJAX request
+    const requestData = { 'score': newScore };
+
+    // Send the AJAX request
+    fetch('/update_score', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Score updated successfully.');
+            // You can perform any additional actions here upon successful update.
+        } else {
+            console.error('Failed to update score.');
+        }
+    })
+    .catch(error => {
+        console.error('An error occurred:', error);
+    });
 }
 
 
