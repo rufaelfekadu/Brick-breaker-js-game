@@ -5,22 +5,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/style.css')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500&family=Unbounded:wght@200;300&display=swap&effect=neon"
         rel="stylesheet">
     <script src="https://kit.fontawesome.com/3ae4e6c2b1.js" defer crossorigin="anonymous"></script>
-    <script src="./js/index.js" type="module" defer></script>
+    <script src="{{url_for('static', filename = 'js/index.js')}}" type="module" defer></script>
     <title>Brick Breaker game</title>
 </head>
 
 <body>
     <hidden>
-        <img id="img_brick" src="./images/brickNoOne.png" />
-        <img id="img_brick2" src="./images/brickNoTwo.png" />
-        <img id="img_brick3" src="./images/brickNoThree.png" />
+        <img id="img_brick" src="{{url_for('static', filename = 'images/brickNoOne.png')}}" />
+        <img id="img_brick2" src="{{url_for('static', filename = 'images/brickNoTwo.png')}}" />
+        <img id="img_brick3" src="{{url_for('static', filename = 'images/brickNoThree.png)}}" />
         <audio controls id="playerElement">
             <source src='' type='audio/wav'>
             </source>
@@ -34,8 +34,8 @@
             </source>
         </audio>
 
-        <img id="heartSolid" src="./images/heart-solid.png" />
-        <img id="expandArrows" src="./images/left-right-solid.png" />
+        <img id="heartSolid" src="{{url_for('static', filename = 'images/heart-solid.png')}}" />
+        <img id="expandArrows" src="{{url_for('static', filename = 'images/left-right-solid.png')}}" />
 
     </hidden>
 
