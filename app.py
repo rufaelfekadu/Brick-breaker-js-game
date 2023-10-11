@@ -8,7 +8,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 import urllib
-import pyodbc
 
 from azure.identity import ManagedIdentityCredential
 
