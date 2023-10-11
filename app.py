@@ -8,6 +8,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 import urllib
+import pyodbc
+
+from azure.identity import ManagedIdentityCredential
+from azure.database import DatabaseClient
+
 
 import os
 import secrets
@@ -17,13 +22,20 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = secret_key  # Replace with your own secret key
 app.static_folder = 'static'
 
-# setup cors
-# CORS(app)
+# Set up the Azure Managed Identity credential
+credential = ManagedIdentityCredential()
 
-# setup database
-db_path = os.path.join(os.path.dirname(__file__), 'site.db')
-# params = urllib.parse.quote_plus("DRIVER={SQL Server};SERVER=sqlhost.database.windows.net;DATABASE=pythonSQL;UID=username@sqldb;PWD=password56789")
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'  # Use SQLite for simplicity
+# Get the access token using Managed Identity
+access_token = credential.get_token('https://database.windows.net/')
+
+# Create a connection string with the access token and ODBC driver
+server = 'brick-breaker-game-server.database.windows.net'
+database = 'brick-breaker-game-database'
+driver = '{ODBC Driver 17 for SQL Server}'
+connection_string = f"DRIVER={driver};SERVER={server};DATABASE={database};Authentication=ActiveDirectoryAccessToken;ACCESS_TOKEN={access_token.token}"
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mssql+pyodbc:///?odbc_connect={connection_string}"
+
 db = SQLAlchemy(app)
 
 # security for password hashing
