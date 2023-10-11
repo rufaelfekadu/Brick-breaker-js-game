@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- setup csrf-torken -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link rel="stylesheet" href="{{url_for('static', filename = 'css/style.css')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,24 +17,41 @@
         rel="stylesheet">
     <script src="https://kit.fontawesome.com/3ae4e6c2b1.js" defer crossorigin="anonymous"></script>
     <script src="{{url_for('static', filename = 'js/index.js')}}" type="module" defer></script>
+    
     <title>Brick Breaker game</title>
 </head>
 
 <body>
+
+    <script>
+        const gameWin_sound = "{{ url_for('static', filename = 'audio/mixkit-final-level-bonus-2061.wav')}}" 
+        const ballCollision_sound = "{{url_for('static', filename = 'audio/mixkit-quick-jump-arcade-game-239.wav')}}" 
+        const levelUp_sound = "{{url_for('static', filename='audio/mixkit-winning-swoosh-2017.wav') }}"
+        const powerUp_sound = "{{url_for('static', filename='audio/mixkit-winning-a-coin-video-game-2069.wav') }}"
+        const lifeLost_sound = "{{url_for('static', filename='audio/mixkit-game-show-wrong-answer-buzz-950.wav') }}"
+        const brickDestroy_sound = "{{url_for('static', filename='audio/mixkit-video-game-power-up-3164.wav')}}" 
+        const gameOver_sound = "{{url_for('static', filename='audio/mixkit-arcade-retro-game-over-213.wav') }}"
+    </script>
+
     <hidden>
         <img id="img_brick" src="{{url_for('static', filename = 'images/brickNoOne.png')}}" />
         <img id="img_brick2" src="{{url_for('static', filename = 'images/brickNoTwo.png')}}" />
-        <img id="img_brick3" src="{{url_for('static', filename = 'images/brickNoThree.png)}}" />
+        <img id="img_brick3" src="{{url_for('static', filename = 'images/brickNoThree.png')}}" />
+
+        <!-- setup a dummy source tags to store the  audio urls -->
+
+
+        <!-- setup the actual players -->
         <audio controls id="playerElement">
-            <source src='' type='audio/wav'>
+            <source id="playerElement" src="" type="audio/wav">
             </source>
         </audio>
         <audio controls id="playerElement2">
-            <source src='' type='audio/wav'>
+            <source src='' type="audio/wav">
             </source>
         </audio>
         <audio controls id="playerElement3">
-            <source src='' type='audio/wav'>
+            <source src='' type="audio/wav">
             </source>
         </audio>
 
@@ -39,14 +60,37 @@
 
     </hidden>
 
-    <div id="welcomeScreen">
+    
+        <div id="welcomeScreen">
+            <div class="leaderboard">
+                <h1>Leaderboard</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player Name</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for player in leaderboard %}
+                        <tr>
+                            <td>{{loop.index}}</td>
+                            <td>{{player.username}}</td>
+                            <td>{{player.score}}</td>
+                        </tr>
+                        {% endfor %}
+                        <!-- Add more rows for additional leaderboard entries -->
+                    </tbody>
+                </table>
+            </div>
 
-        <div>
-            <p class="font-effect-neon" id="winText">YOU WON</p>
-            <p class="font-effect-neon" id="winScore">SCORE </p>
-            <button type="button" id="startGame">START</button>"
+            <div> 
+                <p class="font-effect-neon" id="winText">YOU WON</p>
+                <p class="font-effect-neon" id="winScore">SCORE </p>
+                <button type="button" id="startGame">START</button>  
+            </div>
         </div>
-    </div>
     <main>
         <header>
             <div class="logo"><b>b<span>ri</span>ck<span>br</span><span>e</span><span>a</span><span>k</span>er</b></div>

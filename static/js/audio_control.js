@@ -1,10 +1,11 @@
-const gameOver_sound = '../audio/mixkit-arcade-retro-game-over-213.wav';
-const brickDestroy_sound = '../audio/mixkit-video-game-power-up-3164.wav';
-const lifeLost_sound = '../audio/mixkit-game-show-wrong-answer-buzz-950.wav';
-const powerUp_sound = '../audio/mixkit-winning-a-coin-video-game-2069.wav';
-const levelUp_sound = '../audio/mixkit-winning-swoosh-2017.wav';
-const ballCollision_sound = '../audio/mixkit-quick-jump-arcade-game-239.wav';
-const gameWin_sound = '../audio/mixkit-final-level-bonus-2061.wav';
+
+// const gameWin_sound = document.getElementById('gamewinsound').getAttribute('data-url');
+// const ballCollision_sound = document.getElementById('ballcollisionsound').getAttribute('data-url');
+// const levelUp_sound = document.getElementById('levelupsound').getAttribute('data-url');
+// const powerUp_sound = document.getElementById('powerupsound').getAttribute('data-url');
+// const lifeLost_sound = document.getElementById('lifelostsound').getAttribute('data-url');
+// const brickDestroy_sound = document.getElementById('brickdestroysound').getAttribute('data-url');
+// const gameOver_sound = document.getElementById('gameoversound').getAttribute('data-url');
 
 const playerObject = document.getElementById('playerElement');
 const playerObject2 = document.getElementById('playerElement2');
@@ -23,6 +24,7 @@ export function play_gameOver() {
 }
 export function play_brickDestroy() {
     playerObject3.src = brickDestroy_sound;
+    console.log(playerObject3);
     playerObject3.play();
 }
 export function play_lifeLost() {

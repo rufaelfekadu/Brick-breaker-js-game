@@ -35,15 +35,15 @@ hidden {
 }
 
 #welcomeScreen div {
-  border: #5fe8ff 0.5em solid;
-  width: 32%;
-  height: 45%;
+  /* border: #5fe8ff 0.5em solid; */
+  width: 50%;
+  height: 50%;
   display: flex;
-  position: fixed;
+  /* position: fixed; */
   flex-direction: column;
-  align-items: center;
-  border-radius: 10px;
-  box-shadow: inset 0 0 0.5em 0 #5fe8ff, 0 0 0.5em 0 #5fe8ff;
+  /* align-items: center; */
+  /* border-radius: 10px; */
+  /* box-shadow: inset 0 0 0.5em 0 #5fe8ff, 0 0 0.5em 0 #5fe8ff; */
 }
 #welcomeScreen button {
   cursor: pointer;
@@ -61,6 +61,104 @@ hidden {
 #welcomeScreen button:hover {
   color: #ff4444;
 }
+#welcomeScreen .leaderboard {
+  /* background-color: #333; Adjust the background color to match the theme */
+  /* padding: 20px; */
+  background-color: transparent;
+  /* border-radius: 10px; */
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+  text-align: center;
+  /* max-width: 400px; */
+  /* margin: 20px auto; Center the leaderboard horizontally and add margin from the top */
+  /* margin-top: 20px; Add some top margin to separate it from other content */
+}
+
+/* Style the leaderboard title */
+#welcomeScreen .leaderboard h1 {
+  /* font-size: 30px; */
+  margin: 0;
+  color: #d63d91;
+  font-size: 5rem;
+  font-family: moon;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #d63d91, 0 0 0.5em #d63d91,
+    0 0 0.1em #d63d91, 0 10px 3px #000;
+}
+
+/* Style the leaderboard table */
+#welcomeScreen .leaderboard table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 0; /* Remove table border */
+  border-spacing: 0; /* Remove cell spacing */
+  color: #d63d91;
+  font-family: moon;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #d63d91, 0 0 0.5em #d63d91,
+    0 0 0.1em #d63d91, 0 10px 3px #000;
+}
+
+/* Style the table header (thead) */
+#welcomeScreen .leaderboard th {
+  background-color: transparent; /* Adjust the background color */
+  color: var(--clr-neon);
+  font-size: 2rem;
+  font-family: moon;
+  text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+  border: 0;
+}
+
+/* Style table cells (td) and alternating rows */
+#welcomeScreen .leaderboard td {
+  padding: 8px;
+  border: 0; /* Remove cell borders */
+
+}
+
+/* Add a background color to alternating rows for better readability */
+#welcomeScreen .leaderboard tr:nth-child(even) {
+  background-color: #444; /* Adjust the background color */
+}
+
+
+/* Style the top-ranking player row with a different color */
+#welcomeScreen .leaderboard tbody tr:first-child {
+  background-color: #ffcc00;
+  font-weight: bold;
+}
+
+/* Add borders and borders spacing for the table */
+/* #welcomeScreen .leaderboard th,
+#welcomeScreen .leaderboard td {
+  border: 1px solid #ccc;
+} */
+
+/* Center-align text in table cells */
+#welcomeScreen .leaderboard td {
+  text-align: center;
+}
+
+/* Style the rank column */
+#welcomeScreen .leaderboard td:first-child {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Add hover effect on table rows */
+#welcomeScreen .leaderboard tbody tr:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+/* Add borders and borders spacing for the table */
+/* #welcomeScreen .leaderboard th,
+#welcomeScreen .leaderboard td {
+  border: 1px solid #666; /* Adjust the border color for better contrast */
+} */
+
+/* Center-align text in table cells */
+#welcomeScreen .leaderboard td {
+  text-align: center;
+}
+
 .font-effect-neon {
   text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #d63d91, 0 0 0.5em #d63d91,
     0 0 0.1em #d63d91, 0 10px 3px #000;
@@ -286,6 +384,49 @@ aside * {
   width: 1000;
   height: 607;
   border: #fc49ab 3px solid;
+  padding: 20px;
+}
+#registration-form input{
+  font-size: 2rem;
+  display: block;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--clr-neon);
+  border: var(--clr-neon) 5px solid;
+  padding: 10px 5px;
+  border-radius: 0.25em;
+  background-color: transparent;
+  margin-bottom: 20px; /* Add space below each input field */
+  text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+
+  box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
+
+  position: relative;
+}
+#registration-form button,
+#registration-form a{
+  font-size: 2rem;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--clr-neon);
+  border: var(--clr-neon) 5px solid;
+  padding: 10px 5px;
+  border-radius: 0.25em;
+  background-color: transparent;
+  text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+
+  box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
+
+  position: relative;
+}
+#registration-form label{
+  font-size: 2rem;
+  text-decoration: none;
+  color: var(--clr-neon);
+  background-color: transparent;
+  text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+
 }
 
 /* Error Message */
@@ -300,4 +441,75 @@ aside * {
   color: #28a745;
   font-size: 14px;
   margin-top: 5px;
+}
+
+/* Apply basic styles to the leaderboard container */
+.leaderboard {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Style the leaderboard title */
+.leaderboard h1 {
+  font-size: 24px;
+  margin: 0;
+  color: #333;
+}
+
+/* Style the leaderboard table */
+.leaderboard table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+/* Style the table header (thead) */
+.leaderboard th {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+/* Style table cells (td) and alternating rows */
+.leaderboard td {
+  padding: 8px;
+}
+
+/* Add a background color to alternating rows for better readability */
+.leaderboard tr:nth-child(even) {
+  background-color: #f0f0f0;
+}
+
+/* Style the top-ranking player row with a different color */
+.leaderboard tbody tr:first-child {
+  background-color: #ffcc00;
+  font-weight: bold;
+}
+
+/* Add borders and borders spacing for the table */
+.leaderboard th,
+.leaderboard td {
+  border: 1px solid #ccc;
+}
+
+/* Center-align text in table cells */
+.leaderboard td {
+  text-align: center;
+}
+
+/* Style the rank column */
+.leaderboard td:first-child {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Add hover effect on table rows */
+.leaderboard tbody tr:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
 }

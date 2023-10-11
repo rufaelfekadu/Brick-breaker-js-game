@@ -6,6 +6,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_bcrypt import Bcrypt
+from flask_cors import CORS
 
 import os
 import secrets
@@ -13,6 +14,10 @@ secret_key = secrets.token_hex(16)  # Generate a 16-byte (32-character) secret k
  
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secret_key  # Replace with your own secret key
+app.static_folder = 'static'
+
+# setup cors
+# CORS(app)
 
 # setup database
 db_path = os.path.join(os.path.dirname(__file__), 'site.db')
@@ -29,16 +34,18 @@ login_manager.login_view = 'login'
 from flask_wtf.csrf import CSRFProtect
 csrf = CSRFProtect(app)
 
+# Define models
 class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    high_score = db.Column(db.Integer, nullable=False, default=0)
+    high_score = db.Column(db.Integer, nullable=True, default=0)
 
 class Game(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     score = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    level = db.Column(db.Integer, nullable=False, default=1)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -59,7 +66,7 @@ class LoginForm(FlaskForm):
 # Define the routes for the app
 @app.route('/')
 def home():
-    return 'Welcome to the Flask Authentication App'
+    return redirect(url_for('login'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -95,10 +102,17 @@ def login():
             flash('Login failed. Check your username and password.', 'danger')
     return render_template('login.html', form=form)
 
+
 @app.route('/game')
 @login_required
 def game():
-    return render_template('index.html')
+    # get the highscores for the leaderboard
+    games = Game.query.order_by(Game.score.desc()).limit(10).all()
+    leaderboard = []
+    for game in games:
+        user = User.query.filter_by(id=game.user_id).first()
+        leaderboard.append({'username': user.username, 'score': game.score})
+    return render_template('index.html',guest=False, leaderboard=leaderboard)
 
 @app.route('/profile')
 @login_required
@@ -114,30 +128,60 @@ def logout():
 
 from flask import Flask, request, jsonify
 
+# AJAX route for updating the user's score
 @app.route('/update_score', methods=['POST'])
 def update_score():
     # Extract data from the AJAX request
     data = request.json
     new_score = data.get('score')
-
+    current_level = data.get('level')
     # Update the user's score in the database (replace this with your actual database update code)
     # For example, if you are using SQLAlchemy:
-    
-    user = User.query.filter_by(id=data.get('user_id')).first()
+    user = User.query.filter_by(id=current_user.get_id()).first()
     if user.high_score < new_score:
         user.high_score = new_score
         db.session.commit()
 
     # new entry on Game table
-    game = Game(score=new_score, user_id=data.get('user_id'))
+    game = Game(score=new_score, user_id=current_user.get_id(), level=current_level)
     db.session.add(game)
     db.session.commit()
 
-    # For demonstration purposes, assume the update was successful
+    # if request is successful, return success as True
     success = True
-
     # Return a response indicating success or failure
     response_data = {'success': success}
     return jsonify(response_data)
+
+@app.route('/get_high_score', methods=['POST'])
+def get_high_score():
+    # Extract data from the AJAX request
+    data = request.json
+
+    # Get the user's high score from the database (replace this with your actual database query code)
+    # For example, if you are using SQLAlchemy:
+    user = User.query.filter_by(id=data.get('user_id')).first()
+    high_score = user.high_score
+
+    # Return the high score as a JSON response
+    response_data = {'high_score': high_score}
+    return jsonify(response_data)
+
+@app.route('/update_leaderboard', methods=['POST', 'GET'])
+def update_leaderboard():
+    # Extract data from the AJAX request
+    data = request.json
+
+    # Get the top 10 scores from the database (replace this with your actual database query code)
+    # For example, if you are using SQLAlchemy:
+    games = Game.query.order_by(Game.score.desc()).limit(10).all()
+    leaderboard = []
+    for game in games:
+        leaderboard.append({'username': game.user.username, 'score': game.score})
+
+    # Return the leaderboard as a JSON response
+    response_data = {'leaderboard': leaderboard}
+    return jsonify(response_data)
+
 if __name__ == '__main__':
     app.run(debug=True)

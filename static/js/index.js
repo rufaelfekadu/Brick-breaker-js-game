@@ -102,15 +102,17 @@ function gameOver() {
     stopAnimation();
     welcomeScreen.style.display = 'flex';
     play_gameOver();
-    updateScore(score);
+    updateScore(score, current_level);
     start_btn.innerHTML = "PLAY AGAIN";
     setLevel();
 
 }
+
 function gameWin() {
     stopAnimation();
     welcomeScreen.style.display = 'flex';
     play_gameWin();
+    updateScore(score, level);
     start_btn.style.cursor = 'pointer';
     start_btn.innerHTML = "PLAY AGAIN";
     start_btn.style.fontSize = "1.7rem";
@@ -120,6 +122,7 @@ function gameWin() {
     setLevel();
 
 }
+
 function loadEvents() {
     pause_btn.addEventListener('click', pause);
     canvas.addEventListener("mousemove", function (event) {
@@ -242,8 +245,6 @@ function ballPaddleCollision() {
     }
 }
 
-
-
 function ballBrickCollision() {
     for (let r = 0; r < wall.row; r++) {
         for (let c = 0; c < wall.column; c++) {
@@ -292,6 +293,7 @@ function ballBrickCollision() {
         }
     }
 }
+
 function setLevel() {
     levelImg.value = current_level;
     switch (current_level) {
@@ -406,15 +408,29 @@ function tick() {
     }
 
 }
-function updateScore(newScore) {
+function updateScore(newScore, level) {
     // Prepare the data to send in the AJAX request
-    const requestData = { 'score': newScore };
-
+    const csrfToken = document.querySelector('meta[name=csrf-token]').getAttribute('content');
+    console.log(csrfToken)
+    // const csrfTokenMeta = document.querySelector('meta[name=csrf-token]');
+    // if (csrfTokenMeta) {
+    //     const csrfToken = csrfTokenMeta.getAttribute('content');
+    //     console.log(csrfToken)
+    //     // Continue with using csrfToken
+    // } else {
+    //     console.error('CSRF token meta tag not found.');
+    // }
+    const requestData = { 'score': newScore ,
+                          'level': level,
+                        };
+    
+    console.log('Sending AJAX request to update score.');
     // Send the AJAX request
     fetch('/update_score', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
         },
         body: JSON.stringify(requestData),
     })
@@ -428,7 +444,7 @@ function updateScore(newScore) {
         }
     })
     .catch(error => {
-        console.error('An error occurred:', error);
+        console.log(error);
     });
 }
 
