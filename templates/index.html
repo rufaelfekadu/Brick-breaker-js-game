@@ -9,6 +9,16 @@
     <!-- setup csrf-torken -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <script>
+        const gameWin_sound = "{{ url_for('static', filename = 'audio/mixkit-final-level-bonus-2061.wav')}}" 
+        const ballCollision_sound = "{{url_for('static', filename = 'audio/mixkit-quick-jump-arcade-game-239.wav')}}" 
+        const levelUp_sound = "{{url_for('static', filename='audio/mixkit-winning-swoosh-2017.wav') }}"
+        const powerUp_sound = "{{url_for('static', filename='audio/mixkit-winning-a-coin-video-game-2069.wav') }}"
+        const lifeLost_sound = "{{url_for('static', filename='audio/mixkit-game-show-wrong-answer-buzz-950.wav') }}"
+        const brickDestroy_sound = "{{url_for('static', filename='audio/mixkit-video-game-power-up-3164.wav')}}" 
+        const gameOver_sound = "{{url_for('static', filename='audio/mixkit-arcade-retro-game-over-213.wav') }}"
+    </script>
+
     <link rel="stylesheet" href="{{url_for('static', filename = 'css/style.css')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,15 +33,7 @@
 
 <body>
 
-    <script>
-        const gameWin_sound = "{{ url_for('static', filename = 'audio/mixkit-final-level-bonus-2061.wav')}}" 
-        const ballCollision_sound = "{{url_for('static', filename = 'audio/mixkit-quick-jump-arcade-game-239.wav')}}" 
-        const levelUp_sound = "{{url_for('static', filename='audio/mixkit-winning-swoosh-2017.wav') }}"
-        const powerUp_sound = "{{url_for('static', filename='audio/mixkit-winning-a-coin-video-game-2069.wav') }}"
-        const lifeLost_sound = "{{url_for('static', filename='audio/mixkit-game-show-wrong-answer-buzz-950.wav') }}"
-        const brickDestroy_sound = "{{url_for('static', filename='audio/mixkit-video-game-power-up-3164.wav')}}" 
-        const gameOver_sound = "{{url_for('static', filename='audio/mixkit-arcade-retro-game-over-213.wav') }}"
-    </script>
+    
 
     <hidden>
         <img id="img_brick" src="{{url_for('static', filename = 'images/brickNoOne.png')}}" />

@@ -24,7 +24,6 @@ export function play_gameOver() {
 }
 export function play_brickDestroy() {
     playerObject3.src = brickDestroy_sound;
-    console.log(playerObject3);
     playerObject3.play();
 }
 export function play_lifeLost() {

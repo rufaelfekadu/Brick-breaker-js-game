@@ -7,6 +7,7 @@ from wtforms.validators import DataRequired, Length
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
+import urllib
 
 import os
 import secrets
@@ -21,6 +22,7 @@ app.static_folder = 'static'
 
 # setup database
 db_path = os.path.join(os.path.dirname(__file__), 'site.db')
+# params = urllib.parse.quote_plus("DRIVER={SQL Server};SERVER=sqlhost.database.windows.net;DATABASE=pythonSQL;UID=username@sqldb;PWD=password56789")
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'  # Use SQLite for simplicity
 db = SQLAlchemy(app)
 
