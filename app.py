@@ -11,7 +11,6 @@ import urllib
 import pyodbc
 
 from azure.identity import ManagedIdentityCredential
-from azure.database import DatabaseClient
 
 
 import os
