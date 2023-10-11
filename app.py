@@ -22,7 +22,6 @@ app.static_folder = 'static'
 
 # setup database
 db_path = os.path.join(os.path.dirname(__file__), 'site.db')
-# params = urllib.parse.quote_plus("DRIVER={SQL Server};SERVER=sqlhost.database.windows.net;DATABASE=pythonSQL;UID=username@sqldb;PWD=password56789")
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'  # Use SQLite for simplicity
 db = SQLAlchemy(app)
 
