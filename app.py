@@ -192,4 +192,4 @@ def update_leaderboard():
     return jsonify(response_data)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
