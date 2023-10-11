@@ -411,20 +411,9 @@ function tick() {
 function updateScore(newScore, level) {
     // Prepare the data to send in the AJAX request
     const csrfToken = document.querySelector('meta[name=csrf-token]').getAttribute('content');
-    console.log(csrfToken)
-    // const csrfTokenMeta = document.querySelector('meta[name=csrf-token]');
-    // if (csrfTokenMeta) {
-    //     const csrfToken = csrfTokenMeta.getAttribute('content');
-    //     console.log(csrfToken)
-    //     // Continue with using csrfToken
-    // } else {
-    //     console.error('CSRF token meta tag not found.');
-    // }
     const requestData = { 'score': newScore ,
                           'level': level,
                         };
-    
-    console.log('Sending AJAX request to update score.');
     // Send the AJAX request
     fetch('/update_score', {
         method: 'POST',
@@ -439,6 +428,13 @@ function updateScore(newScore, level) {
         if (data.success) {
             console.log('Score updated successfully.');
             // You can perform any additional actions here upon successful update.
+            // Update the table with the new leaderboard data
+            var leaderboardTable = $('#leaderboard tbody');
+            leaderboardTable.empty(); // Clear existing table rows
+            
+            $.each(response, function(index, player) {
+                leaderboardTable.append('<tr><td>' + (index + 1) + '</td><td>' + player.username + '</td><td>' + player.score + '</td></tr>');
+            });
         } else {
             console.error('Failed to update score.');
         }
