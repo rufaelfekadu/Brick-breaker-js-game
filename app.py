@@ -7,13 +7,9 @@ from wtforms.validators import DataRequired, Length
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
-import urllib
-import pyodbc
 
 from azure.identity import ManagedIdentityCredential
 
-
-import os
 import secrets
 secret_key = secrets.token_hex(16)  # Generate a 16-byte (32-character) secret key
  
