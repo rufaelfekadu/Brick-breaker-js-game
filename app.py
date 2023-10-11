@@ -8,6 +8,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 import urllib
+import pyodbc
+
+from azure.identity import ManagedIdentityCredential
+
 
 import os
 import secrets
@@ -17,12 +21,23 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = secret_key  # Replace with your own secret key
 app.static_folder = 'static'
 
-# setup cors
-# CORS(app)
+# Set up the Azure Managed Identity credential
+credential = ManagedIdentityCredential()
 
-# setup database
-db_path = os.path.join(os.path.dirname(__file__), 'site.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'  # Use SQLite for simplicity
+# Get the access token using Managed Identity
+access_token = credential.get_token('https://database.windows.net/')
+
+# Create a connection string with the access token and ODBC driver
+server = 'brick-breaker-game-server.database.windows.net'
+database = 'brick-breaker-game-database'
+driver = '{ODBC Driver 17 for SQL Server}'
+connection_string = f"DRIVER={driver};SERVER={server};DATABASE={database};Authentication=ActiveDirectoryAccessToken;ACCESS_TOKEN={access_token.token}"
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mssql+pyodbc:///?odbc_connect={connection_string}"
+
+# db_path = os.path.join(os.path.dirname(__file__), 'site.db')
+# app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'  # Use SQLite for simplicity
+
 db = SQLAlchemy(app)
 
 # security for password hashing
@@ -36,7 +51,7 @@ from flask_wtf.csrf import CSRFProtect
 csrf = CSRFProtect(app)
 
 # Define models
-class User(db.Model, UserMixin):
+class Game_user(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
@@ -45,12 +60,12 @@ class User(db.Model, UserMixin):
 class Game(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     score = db.Column(db.Integer, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('Game_user.id'), nullable=False)
     level = db.Column(db.Integer, nullable=False, default=1)
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return Game_user.query.get(int(user_id))
 
 
 # Define the registration and login forms (WTForms)
@@ -75,12 +90,12 @@ def register():
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        existing_user = User.query.filter_by(username=username).first()
+        existing_user = Game_user.query.filter_by(username=username).first()
         if existing_user:
             flash('Username is already taken.', 'danger')
         else:
             hashed_password = generate_password_hash(password, method='sha256')
-            new_user = User(username=username, password=hashed_password)
+            new_user = Game_user(username=username, password=hashed_password)
             db.session.add(new_user)
             db.session.commit()
 
@@ -94,7 +109,7 @@ def login():
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        user = User.query.filter_by(username=username).first()
+        user = Game_user.query.filter_by(username=username).first()
         if user and check_password_hash(user.password, password):
             login_user(user)
             flash('Login successful!', 'success')
@@ -111,7 +126,7 @@ def game():
     games = Game.query.order_by(Game.score.desc()).limit(10).all()
     leaderboard = []
     for game in games:
-        user = User.query.filter_by(id=game.user_id).first()
+        user = Game_user.query.filter_by(id=game.user_id).first()
         leaderboard.append({'username': user.username, 'score': game.score})
     return render_template('index.html',guest=False, leaderboard=leaderboard)
 
@@ -138,7 +153,7 @@ def update_score():
     current_level = data.get('level')
     # Update the user's score in the database (replace this with your actual database update code)
     # For example, if you are using SQLAlchemy:
-    user = User.query.filter_by(id=current_user.get_id()).first()
+    user = Game_user.query.filter_by(id=current_user.get_id()).first()
     if user.high_score < new_score:
         user.high_score = new_score
         db.session.commit()
@@ -149,24 +164,16 @@ def update_score():
     db.session.commit()
 
     # if request is successful, return success as True
-    success = True
+
+    games = Game.query.order_by(Game.score.desc()).limit(10).all()
+    leaderboard = []
+    for game in games:
+        user = Game_user.query.filter_by(id=game.user_id).first()
+        leaderboard.append({'username': user.username, 'score': game.score})
     # Return a response indicating success or failure
-    response_data = {'success': success}
-    return jsonify(response_data)
+    # response_data = {'success': True, 'leaderboard': leaderboard}
+    return jsonify(leaderboard)
 
-@app.route('/get_high_score', methods=['POST'])
-def get_high_score():
-    # Extract data from the AJAX request
-    data = request.json
-
-    # Get the user's high score from the database (replace this with your actual database query code)
-    # For example, if you are using SQLAlchemy:
-    user = User.query.filter_by(id=data.get('user_id')).first()
-    high_score = user.high_score
-
-    # Return the high score as a JSON response
-    response_data = {'high_score': high_score}
-    return jsonify(response_data)
 
 @app.route('/update_leaderboard', methods=['POST', 'GET'])
 def update_leaderboard():
