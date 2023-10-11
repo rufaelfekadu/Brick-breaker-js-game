@@ -21,21 +21,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = secret_key  # Replace with your own secret key
 app.static_folder = 'static'
 
-# # Set up the Azure Managed Identity credential
-# credential = ManagedIdentityCredential()
-
-# # Get the access token using Managed Identity
-# access_token = credential.get_token('https://database.windows.net/')
-
-# # Create a connection string with the access token and ODBC driver
-# server = 'brick-breaker-game-server.database.windows.net'
-# database = 'brick-breaker-game-database'
-# driver = '{ODBC Driver 17 for SQL Server}'
-# connection_string = f"DRIVER={driver};SERVER={server};DATABASE={database};Authentication=ActiveDirectoryAccessToken;ACCESS_TOKEN={access_token.token}"
-
-# app.config['SQLALCHEMY_DATABASE_URI'] = f"mssql+pyodbc:///?odbc_connect={connection_string}"
-
-
 db_path = os.path.join(os.path.dirname(__file__), 'site.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'  # Use SQLite for simplicity
 
