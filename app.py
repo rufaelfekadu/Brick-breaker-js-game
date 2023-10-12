@@ -20,8 +20,11 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = secret_key  # Replace with your own secret key
 app.static_folder = 'static'
 
-db_path = os.path.join(os.path.dirname(__file__), 'site.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'  # Use SQLite for simplicity
+# db_path = os.path.join(os.path.dirname(__file__), 'site.db')
+# app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'  # Use SQLite for simplicity
+connection_string = os.environ.get('AZURE_SQL_CONNECTION_STRING')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mssql+pyodbc:///?odbc_connect={connection_string}"
 
 db = SQLAlchemy(app)
 
