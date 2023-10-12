@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'brick-breaker-game'
           slot-name: 'Development'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_805D6463476345A0928362E4721EE816 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9D58C67B1AA9461896DCAC27BC17F5CF }}
