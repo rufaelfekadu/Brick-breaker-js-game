@@ -42,7 +42,7 @@ csrf = CSRFProtect(app)
 class Game_user(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(120), nullable=False)
+    login_password = db.Column(db.String(120), nullable=False)
     high_score = db.Column(db.Integer, nullable=True, default=0)
 
 class Game(db.Model, UserMixin):
@@ -83,7 +83,7 @@ def register():
             flash('Username is already taken.', 'danger')
         else:
             hashed_password = generate_password_hash(password, method='sha256')
-            new_user = Game_user(username=username, password=hashed_password)
+            new_user = Game_user(username=username, login_password=hashed_password)
             db.session.add(new_user)
             db.session.commit()
 
@@ -98,7 +98,7 @@ def login():
         username = form.username.data
         password = form.password.data
         user = Game_user.query.filter_by(username=username).first()
-        if user and check_password_hash(user.password, password):
+        if user and check_password_hash(user.login_password, password):
             login_user(user)
             flash('Login successful!', 'success')
             return redirect(url_for('game'))
