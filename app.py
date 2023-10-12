@@ -34,7 +34,8 @@ password = os.environ.get('AZURE_SQL_PASSWORD')
 # connection_string = f"DRIVER={driver};SERVER={server};DATABASE={database};Authentication=ActiveDirectoryAccessToken;ACCESS_TOKEN={access_token}"
 
 # Create a connection string
-connection_string = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+# connection_string = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+connection_string = os.environ.get('AZURE_SQL_CONNECTION_STRING')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mssql+pyodbc:///?odbc_connect={connection_string}"
 # app.config['SQLALCHEMY_DATABASE_URI'] = f"{connection_string}"
