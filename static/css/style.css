@@ -443,5 +443,17 @@ aside * {
   margin-top: 5px;
 }
 
+.logo-img {
+  position: absolute;
+  top: 5px; /* Adjust this value to control the vertical position */
+  right: 5px; /* Adjust this value to control the horizontal position */
+}
+
+/* Add your logo's styling here */
+.logo-img img {
+  width: 400px; /* Adjust the width as needed */
+  height: auto; /* Maintain aspect ratio */
+}
+
 
 
