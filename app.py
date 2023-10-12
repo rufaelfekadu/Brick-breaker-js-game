@@ -25,11 +25,11 @@ app.static_folder = 'static'
 # access_token = credential.get_token('https://database.windows.net/.default').token.encode("UTF-16-LE")
 
 # Create a connection string with the access token and ODBC driver
-server = os.environ['AZURE_SQL_SERVER']
-database = os.environ['AZURE_SQL_DATABASE']
+server = os.environ.get('AZURE_SQL_SERVER')
+database = os.environ.get('AZURE_SQL_DATABASE')
 driver = '{ODBC Driver 17 for SQL Server}'
-username = os.environ['AZURE_SQL_USERNAME']
-password = os.environ['AZURE_SQL_PASSWORD']
+username = os.environ.get('AZURE_SQL_USERNAME')
+password = os.environ.get('AZURE_SQL_PASSWORD')
 
 # connection_string = f"DRIVER={driver};SERVER={server};DATABASE={database};Authentication=ActiveDirectoryAccessToken;ACCESS_TOKEN={access_token}"
 
