@@ -24,6 +24,7 @@ app.static_folder = 'static'
 # app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'  # Use SQLite for simplicity
 connection_string = os.environ.get('AZURE_SQL_CONNECTION_STRING')
 
+
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mssql+pyodbc:///?odbc_connect={connection_string}"
 
 db = SQLAlchemy(app)
@@ -83,7 +84,7 @@ def register():
             flash('Username is already taken.', 'danger')
         else:
             hashed_password = generate_password_hash(password, method='sha256')
-            new_user = Game_user(username=username, login_password=hashed_password)
+            new_user = Game_user(username=username, login_password=hashed_password, high_score=0)
             db.session.add(new_user)
             db.session.commit()
 
