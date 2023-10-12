@@ -8,7 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 
-from azure.identity import ManagedIdentityCredential
+from azure.identity import ManagedIdentityCredential, DefaultAzureCredential
 
 import secrets
 secret_key = secrets.token_hex(16)  # Generate a 16-byte (32-character) secret key
@@ -18,7 +18,7 @@ app.config['SECRET_KEY'] = secret_key  # Replace with your own secret key
 app.static_folder = 'static'
 
 # Set up the Azure Managed Identity credential
-credential = ManagedIdentityCredential()
+credential = DefaultAzureCredential()
 
 # Get the access token using Managed Identity
 access_token = credential.get_token('https://database.windows.net/')
