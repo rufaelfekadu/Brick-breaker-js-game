@@ -9,7 +9,7 @@ from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 import os
 
-from azure.identity import ManagedIdentityCredential, DefaultAzureCredential
+# from azure.identity import ManagedIdentityCredential, DefaultAzureCredential
 
 import secrets
 secret_key = secrets.token_hex(16)  # Generate a 16-byte (32-character) secret key
@@ -25,11 +25,11 @@ app.static_folder = 'static'
 # access_token = credential.get_token('https://database.windows.net/.default').token.encode("UTF-16-LE")
 
 # Create a connection string with the access token and ODBC driver
-server = os.environ.get('AZURE_SQL_SERVER')
-database = os.environ.get('AZURE_SQL_DATABASE')
-driver = '{ODBC Driver 17 for SQL Server}'
-username = os.environ.get('AZURE_SQL_USERNAME')
-password = os.environ.get('AZURE_SQL_PASSWORD')
+# server = os.environ.get('AZURE_SQL_SERVER')
+# database = os.environ.get('AZURE_SQL_DATABASE')
+# driver = '{ODBC Driver 18 for SQL Server}'
+# username = os.environ.get('AZURE_SQL_USERNAME')
+# password = os.environ.get('AZURE_SQL_PASSWORD')
 
 # connection_string = f"DRIVER={driver};SERVER={server};DATABASE={database};Authentication=ActiveDirectoryAccessToken;ACCESS_TOKEN={access_token}"
 
